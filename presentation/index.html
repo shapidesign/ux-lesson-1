@@ -1,0 +1,581 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>כשהעיצוב לא מדבר</title>
+<style>
+@font-face{font-family:Polin;src:url(fonts/Polin-Light.otf);font-weight:300}
+@font-face{font-family:Polin;src:url(fonts/Polin-Regular.otf);font-weight:400}
+@font-face{font-family:Polin;src:url(fonts/Polin-Medium.otf);font-weight:500}
+@font-face{font-family:Polin;src:url(fonts/Polin-Semibold.otf);font-weight:600}
+@font-face{font-family:Polin;src:url(fonts/Polin-Bold.otf);font-weight:700}
+@font-face{font-family:Polin;src:url(fonts/Polin-Extrabold.otf);font-weight:800}
+@font-face{font-family:Polin;src:url(fonts/Polin-Black.otf);font-weight:900}
+:root{--bg:#F4F1EC;--ink:#16181D;--mute:#6B6F76;--hot:#E5484D;--cold:#3E8EF7;--o:#FF9F0A;--g:#8E8E93;--ios:-apple-system,"SF Pro Text","SF Pro",Inter,system-ui,sans-serif}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:#0d0d0f;overflow:hidden;font-family:Polin,Heebo,sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased}
+#deck{position:absolute;left:50%;top:50%;width:1920px;height:1080px;transform-origin:center}
+.slide{position:absolute;inset:0;background:var(--bg);opacity:0;pointer-events:none;transition:opacity .45s;overflow:hidden}
+.slide.active{opacity:1;pointer-events:auto}
+.slide.dark{background:var(--ink);color:#fff}
+.copy{position:absolute;right:120px;top:150px;width:740px}
+.eyebrow{font-size:26px;font-weight:600;color:var(--mute)}
+h1{font-size:150px;font-weight:900;margin:0;line-height:1.05}
+h2{font-size:68px;font-weight:700;margin:22px 0 26px;line-height:1.1}
+.body{font-size:30px;line-height:1.5;color:#3A3D44;margin:0}
+.chips{display:flex;gap:12px;margin-top:28px}
+.chips span{background:#fff;border:1.5px solid #DDD7CC;border-radius:100px;padding:10px 20px;font-size:22px;font-weight:500}
+.caption{position:absolute;right:120px;top:800px;width:740px;background:var(--ink);color:#fff;border-radius:28px;padding:24px 32px;font-size:30px;font-weight:500;line-height:1.4;display:flex;gap:20px;align-items:center}
+.caption .txt{flex:1}
+.caption .live{flex:none;font-size:20px;font-weight:700;background:var(--hot);border-radius:100px;padding:6px 14px;letter-spacing:.05em}
+.caption button{flex:none;font:inherit;font-size:20px;font-weight:600;color:#fff;background:rgba(255,255,255,.14);border:0;border-radius:100px;padding:8px 18px;cursor:pointer}
+.stage{position:absolute;left:120px;top:120px;width:860px;height:840px;border-radius:40px;overflow:hidden;background:#E6EAEE;direction:ltr;touch-action:none;user-select:none}
+.stage .tile{position:absolute;left:0;right:0;top:280px;height:2px;background:#D5DBE1}
+.arm{position:absolute;left:418px;top:0;width:24px;height:100px;background:#8E96A1}
+.head{position:absolute;left:290px;top:92px;width:280px;height:44px;border-radius:22px;background:linear-gradient(#E9ECEF,#B9C0C8);border:3px solid #8E96A1;box-shadow:0 8px 20px rgba(0,0,0,.18)}
+.water{position:absolute;left:50%;top:126px;height:220px;width:60px;transform:translateX(-50%);border-radius:0 0 40px 40px;opacity:0;background:#9CC3F0;overflow:hidden;transition:width .25s,background-color .3s,opacity .3s}
+.water i{position:absolute;inset:-40px 0 0;background:repeating-linear-gradient(180deg,rgba(255,255,255,.28) 0 6px,transparent 6px 26px);animation:flow .6s linear infinite}
+@keyframes flow{to{transform:translateY(26px)}}
+.tag{position:absolute;left:50%;top:362px;transform:translateX(-50%);min-width:230px;height:72px;border-radius:36px;background:#fff;color:var(--mute);font-size:34px;font-weight:700;display:flex;align-items:center;justify-content:center;padding:0 24px;box-shadow:0 8px 24px rgba(0,0,0,.15);transition:background-color .3s,color .3s;direction:rtl}
+.hint{position:absolute;font-size:22px;font-weight:600;color:var(--mute);direction:rtl;white-space:nowrap}
+.grab{cursor:grab}.grab:active{cursor:grabbing}
+/* problem knobs */
+.knob2{position:absolute;width:160px;height:160px;border-radius:50%;background:radial-gradient(circle at 50% 35%,#fff,#C3C9D1 70%);border:3px solid #8E96A1;box-shadow:0 8px 20px rgba(0,0,0,.2)}
+.knob2 .bar{position:absolute;left:8px;top:62px;width:144px;height:36px;border-radius:18px;background:#AEB5BF;border:2px solid #8E96A1}
+.knob2 .cap{position:absolute;left:62px;top:62px;width:36px;height:36px;border-radius:50%;background:#F1F3F5;border:2px solid #8E96A1}
+.knob2 .dot{position:absolute;left:74px;top:74px;width:12px;height:12px;border-radius:50%}
+/* rotary switch */
+.rail{position:absolute;left:90px;top:630px;width:680px;height:100px;border-radius:50px;background:#F7F8FA;border:3px solid #CBD1D8}
+.track{position:absolute;border-radius:14px}
+.tick{position:absolute;background:#9AA1AB}
+.tickl{position:absolute;font:500 22px Inter,system-ui;color:var(--mute);width:70px;text-align:center}
+.sw{position:absolute;width:240px;height:64px;border-radius:32px;background:linear-gradient(#FFFFFF,#C3C9D1 60%,#8E96A1);border:3px solid #8E96A1;box-shadow:0 8px 20px rgba(0,0,0,.2);transition:transform .35s cubic-bezier(.4,1.4,.6,1);display:flex;gap:15px;justify-content:center;align-items:center}
+.sw i{width:6px;height:36px;border-radius:3px;background:#8E96A1}
+.swtag{position:absolute;width:160px;height:64px;border-radius:32px;display:flex;align-items:center;justify-content:center;font:700 30px Inter,system-ui;color:#fff;box-shadow:0 8px 20px rgba(0,0,0,.15);transition:opacity .3s}
+/* noa */
+.bigknob{position:absolute;width:210px;height:210px;border-radius:50%;background:radial-gradient(circle closest-side,#fff 0,#E3E7EB 62%,#C3C9D1 79%,transparent 80%),repeating-conic-gradient(#8E96A1 0 4deg,#E5E8EC 4deg 9deg);box-shadow:0 10px 24px rgba(0,0,0,.22)}
+.bigknob b{position:absolute;left:99px;top:20px;width:12px;height:46px;border-radius:6px;background:var(--ink)}
+.fdot{position:absolute;border-radius:50%;background:var(--cold);transition:opacity .2s}
+.thumb{position:absolute;width:110px;height:44px;border-radius:14px;background:linear-gradient(#fff,#B5BCC5);border:2px solid #8E96A1;box-shadow:0 8px 20px rgba(0,0,0,.2)}
+.thumb i{position:absolute;left:12px;right:12px;top:18px;height:4px;border-radius:2px}
+/* iPhone */
+.phone{position:absolute;left:355px;top:110px;width:410px;height:860px;border-radius:66px;background:#0B0B0C;border:5px solid #48484A;box-shadow:0 30px 60px rgba(0,0,0,.3);direction:ltr;font-family:var(--ios);user-select:none}
+.screen{position:absolute;inset:7px;border-radius:54px;overflow:hidden;background:#000;color:#fff}
+.status{position:absolute;left:44px;top:18px;font-size:17px;font-weight:600;z-index:9}
+.island{position:absolute;left:133px;top:11px;width:120px;height:35px;border-radius:18px;background:#000;z-index:9}
+.homebar{position:absolute;left:126px;bottom:11px;width:134px;height:5px;border-radius:3px;background:#fff;z-index:9}
+.o{color:var(--o)}
+.alarms{position:absolute;inset:0;padding:58px 16px 0}
+.alarms .nav{display:flex;justify-content:space-between;font-size:17px}
+.alarms .nav .plus{font-size:32px;line-height:20px}
+.alarms h3{font-size:34px;font-weight:700;margin:14px 0 18px}
+.alarms .sec{font-size:20px;font-weight:600;margin-bottom:10px}
+.arow{display:flex;justify-content:space-between;align-items:center;border-top:.5px solid #38383A;padding:10px 0 12px;transition:opacity .4s}
+.arow .t{font-size:54px;font-weight:300;line-height:64px}.arow .t small{font-size:30px}
+.arow .s{font-size:15px}
+.arow.off{color:var(--g)}
+.arow.hidden{opacity:0}
+.tg{width:51px;height:31px;border-radius:16px;background:#39393D;position:relative;flex:none}
+.tg::after{content:"";position:absolute;left:2px;top:2px;width:27px;height:27px;border-radius:50%;background:#fff;transition:left .2s}
+.tg.on{background:#34C759}.tg.on::after{left:22px}
+.sheet{position:absolute;left:0;right:0;top:60px;bottom:0;background:#1C1C1E;border-radius:12px 12px 0 0;transition:transform .45s cubic-bezier(.3,.8,.3,1);overflow:hidden}
+.sheet.closed{transform:translateY(105%)}
+.sh-head{display:flex;justify-content:space-between;align-items:center;padding:14px 16px;font-size:17px}
+.sh-head b{font-weight:600}
+.sh-head span{cursor:pointer}
+.sh-head .save{font-weight:600}
+.sh-head .save.dis{opacity:.35;pointer-events:none}
+.group{position:absolute;left:16px;right:16px;bottom:120px;background:#2C2C2E;border-radius:12px;font-size:17px}
+.group div{display:flex;justify-content:space-between;align-items:center;height:46px;padding:0 16px;border-top:.5px solid #48484A}
+.group div:first-child{border-top:0}
+.group span{color:var(--g)}
+.picker{position:relative;height:210px;display:flex;justify-content:center;gap:6px;margin-top:10px}
+.picker .bar{position:absolute;left:16px;right:16px;top:88px;height:34px;background:rgba(118,118,128,.28);border-radius:8px;pointer-events:none}
+.wheel{width:64px;height:210px;overflow-y:scroll;scroll-snap-type:y mandatory;scrollbar-width:none;-webkit-mask-image:linear-gradient(transparent,#000 38%,#000 62%,transparent);mask-image:linear-gradient(transparent,#000 38%,#000 62%,transparent);position:relative;cursor:grab}
+.wheel::-webkit-scrollbar{display:none}
+.wheel div{height:34px;line-height:34px;text-align:center;font-size:23px;scroll-snap-align:center}
+.wheel .sp{height:88px;scroll-snap-align:none}
+.toast{position:absolute;left:12px;right:12px;top:56px;min-height:86px;border-radius:24px;background:#2C2C2E;box-shadow:0 10px 30px rgba(0,0,0,.4);display:flex;align-items:center;gap:12px;padding:14px 18px;direction:rtl;font-family:Polin,sans-serif;transform:translateY(-170px);transition:transform .45s cubic-bezier(.3,1.3,.5,1);z-index:8}
+.toast.show{transform:none}
+.toast .ck{flex:none;width:36px;height:36px;border-radius:50%;background:#34C759;display:flex;align-items:center;justify-content:center}
+.toast b{display:block;font-size:18px}.toast span{font-size:15px;color:#C7C7CC}
+/* radial */
+.tdisp{display:flex;justify-content:center;align-items:baseline;font-size:64px;font-weight:200;margin-top:4px;gap:2px}
+.tdisp span{cursor:pointer;padding:0 6px;border-radius:12px;touch-action:none}
+.tdisp span.act{color:var(--o)}
+.tdisp.edit span{background:rgba(255,159,10,.14);outline:2px solid var(--o)}
+.tdisp.bad span{outline-color:var(--hot);color:var(--hot)}
+.legend{text-align:center;font-size:14px;color:var(--g);margin-top:6px;font-family:Polin,sans-serif;direction:rtl}
+.dial{display:block;margin:6px auto 0;touch-action:none;cursor:pointer}
+.keypad{position:absolute;left:0;right:0;bottom:0;height:300px;background:#2C2C2E;padding:10px 8px;display:grid;grid-template-columns:repeat(3,1fr);gap:8px;transform:translateY(105%);transition:transform .35s;z-index:7}
+.keypad.show{transform:none}
+.keypad button{font:400 26px var(--ios);color:#fff;background:#636366;border:0;border-radius:8px;cursor:pointer}
+.keypad button.ok{background:var(--o);font-weight:600;font-size:20px}
+/* noa clock */
+.pages{position:absolute;left:0;right:0;top:56px;height:400px}
+.page{position:absolute;inset:0;transition:transform .4s cubic-bezier(.3,.8,.3,1)}
+.q h4{font-size:24px;font-weight:600;margin:6px 16px 4px}.q p{font-size:15px;color:var(--g);margin:0 16px 16px}
+.card{margin:0 16px 12px;height:72px;border-radius:14px;background:#2C2C2E;display:flex;align-items:center;gap:14px;padding:0 14px;cursor:pointer;border:2px solid transparent}
+.card:hover{background:#3A3A3C}.card.sel{border-color:var(--o)}
+.card .bd{width:44px;height:44px;border-radius:12px;background:rgba(255,159,10,.16);color:var(--o);font-weight:700;font-size:17px;display:flex;align-items:center;justify-content:center}
+.card .ct{flex:1}.card .ct b{display:block;font-size:17px;font-weight:600}.card .ct span{font-size:14px;color:var(--g)}
+.card .chev{color:var(--g);font-size:24px}
+.cal .mh{display:flex;justify-content:space-between;align-items:center;margin:6px 16px 10px;font-size:20px;font-weight:600}
+.cal .mh span{color:var(--o);cursor:pointer;padding:0 8px;font-size:26px}
+.cal .grid{display:grid;grid-template-columns:repeat(7,50px);margin:0 18px;row-gap:6px}
+.cal .grid div{height:38px;width:38px;margin:0 6px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:19px;cursor:pointer}
+.cal .grid .wd{font-size:13px;font-weight:600;color:var(--g);cursor:default}
+.cal .grid .past{color:#5A5A5E;cursor:default}
+.cal .grid .today{color:var(--o);font-weight:600}
+.cal .grid .sel{background:var(--o);color:#fff;font-weight:600}
+.chiprow{display:flex;justify-content:space-between;align-items:center;margin:8px 16px 0}
+.dchip{background:rgba(255,159,10,.16);color:var(--o);border-radius:20px;padding:8px 16px;font-size:16px;font-weight:600}
+.chiprow span{color:var(--g);font-size:15px;cursor:pointer}
+.warn{text-align:center;color:var(--hot);font-size:15px;height:20px;margin-top:6px;font-family:Polin,sans-serif;direction:rtl}
+/* nav */
+#nav{position:fixed;left:18px;bottom:14px;display:flex;gap:8px;align-items:center;z-index:10;opacity:.35;transition:opacity .2s;direction:rtl}
+#nav:hover{opacity:1}
+#nav button{font:600 15px Polin,sans-serif;color:#fff;background:#2C2C2E;border:0;border-radius:100px;padding:8px 14px;cursor:pointer}
+#nav span{color:#fff;font:500 14px Inter,sans-serif;min-width:52px;text-align:center}
+</style>
+</head>
+<body>
+<div id="deck">
+
+<!-- 1 title -->
+<section class="slide">
+  <div class="copy" style="top:140px;width:1680px">
+    <div class="eyebrow" style="font-size:30px">עיצוב אינטראקטיבי · מרצה: אבירם פלג</div>
+    <h1 style="margin-top:20px">כשהעיצוב לא מדבר</h1>
+    <p class="body" style="font-size:44px;color:var(--mute);margin-top:30px">שני מוצרים יומיומיים, בעיות שימושיות ומשוב – והצעות לתיקון</p>
+  </div>
+  <div style="position:absolute;right:120px;top:600px;display:flex;gap:80px">
+    <div style="width:800px;height:230px;background:#fff;border-radius:36px;padding:40px">
+      <div class="eyebrow">מוצר פיזי</div><h2 style="font-size:48px;margin:14px 0 0">ברז מקלחת עם שתי ידיות</h2></div>
+    <div style="width:800px;height:230px;background:#fff;border-radius:36px;padding:40px">
+      <div class="eyebrow">מוצר דיגיטלי</div><h2 style="font-size:48px;margin:14px 0 0">השעון המעורר באייפון</h2></div>
+  </div>
+  <div class="eyebrow" style="position:absolute;right:120px;top:960px;color:var(--ink);font-size:30px">סטודנט א׳ · סטודנט ב׳ · נועה</div>
+</section>
+
+<!-- 2 shower problem -->
+<section class="slide" data-demo="showerProblem">
+  <div class="stage">
+    <div class="tile" style="top:280px"></div><div class="tile" style="top:560px"></div>
+    <div class="arm"></div><div class="water"><i></i></div><div class="head"></div><div class="tag">?°C</div>
+    <div class="knob2 grab" data-k="hot" style="left:170px;top:620px"><div class="bar"></div><div class="cap"></div><div class="dot" style="background:var(--hot)"></div></div>
+    <div class="knob2 grab" data-k="cold" style="left:530px;top:620px"><div class="bar"></div><div class="cap"></div><div class="dot" style="background:var(--cold)"></div></div>
+    <div class="hint" style="left:205px;top:792px">ידית א׳</div><div class="hint" style="left:565px;top:792px">ידית ב׳</div>
+  </div>
+  <div class="copy"><div class="eyebrow">מוצר 1 · ברז מקלחת · הבעיה</div><h2>שתי ידיות, אפס משוב</h2>
+    <p class="body">ידית אחת לחם וידית אחת לקר. המשתמש לא יודע כמה לסובב, כל ידית משנה גם זרימה וגם טמפרטורה, והמשוב מגיע באיחור – ישר על הגוף.</p>
+    <div class="chips"><span>מיפוי</span><span>משוב</span><span>סימנים</span></div></div>
+  <div class="caption"><span class="txt">נסו להגיע ל־37°C: סובבו את הידיות. הטמפרטורה מתעדכנת רק אחרי השהייה.</span><span class="live">LIVE</span></div>
+</section>
+
+<!-- 3 lever -->
+<section class="slide" data-demo="lever">
+  <div class="stage">
+    <div class="tile"></div><div class="arm"></div><div class="water"><i></i></div><div class="head"></div><div class="tag">סגור</div>
+    <svg width="860" height="840" viewBox="0 0 860 840" style="position:absolute;inset:0;pointer-events:none">
+      <defs>
+        <linearGradient id="gC" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff"/><stop offset=".45" stop-color="#D9DDE2"/><stop offset=".8" stop-color="#A3AAB4"/><stop offset="1" stop-color="#E8EBEE"/></linearGradient>
+        <linearGradient id="gR" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7D8591"/><stop offset=".35" stop-color="#F4F6F8"/><stop offset=".7" stop-color="#9AA2AD"/><stop offset="1" stop-color="#EEF0F3"/></linearGradient>
+        <linearGradient id="gR2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#EEF1F4"/><stop offset=".5" stop-color="#C4CAD2"/><stop offset="1" stop-color="#F7F8FA"/></linearGradient>
+        <linearGradient id="gP" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#9AA2AD"/><stop offset=".3" stop-color="#fff"/><stop offset=".55" stop-color="#E3E7EB"/><stop offset="1" stop-color="#8E96A1"/></linearGradient>
+        <filter id="sh" x="-30%" y="-30%" width="160%" height="160%"><feDropShadow dx="0" dy="8" stdDeviation="9" flood-opacity=".25"/></filter>
+      </defs>
+      <circle cx="430" cy="630" r="180" fill="url(#gC)" stroke="#9AA1AB" stroke-width="2" filter="url(#sh)"/>
+      <circle cx="430" cy="630" r="146" fill="url(#gR)"/>
+      <circle cx="430" cy="630" r="124" fill="url(#gR2)" stroke="#B7BDC6" stroke-width="2"/>
+      <circle cx="430" cy="630" r="100" fill="#E7EAEE"/>
+      <path transform="translate(276,630)" d="M0 -25C6 -25 9 -21 8 -15L4 21C3.5 25 -3.5 25 -4 21L-8 -15C-9 -21 -6 -25 0 -25Z" fill="#E5484D"/>
+      <path transform="translate(584,630)" d="M0 -25C6 -25 9 -21 8 -15L4 21C3.5 25 -3.5 25 -4 21L-8 -15C-9 -21 -6 -25 0 -25Z" fill="#3E8EF7"/>
+      <g id="lever" class="grab" style="pointer-events:auto" transform="translate(430,672)">
+        <rect x="-41" y="15" width="82" height="175" rx="41" fill="url(#gP)" stroke="#9AA1AB" stroke-width="2" filter="url(#sh)"/>
+        <rect x="-22" y="45" width="12" height="120" rx="6" fill="#fff" opacity=".7"/>
+        <circle r="55" fill="url(#gC)" stroke="#9AA1AB" stroke-width="2"/>
+        <circle r="25" fill="url(#gR2)" stroke="#B7BDC6"/>
+        <circle cx="42" cy="-44" r="8" fill="#C3C9D1" stroke="#8E96A1" stroke-width="1.5"/>
+      </g>
+    </svg>
+    <div class="hint" style="left:600px;top:440px">▲ זרימה</div>
+  </div>
+  <div class="copy"><div class="eyebrow">מוצר 1 · פתרון 1 · סטודנט א׳</div><h2>ידית אחת, שני צירים</h2>
+    <p class="body">למעלה ולמטה שולטים בזרימה. שמאלה – חם, ימינה – קר. סימון אדום וכחול משני צידי הידית מראה מראש לאן להזיז אותה, וכל שינוי מורגש מיד.</p>
+    <div class="chips"><span>מיפוי טבעי</span><span>סימנים</span><span>משוב מיידי</span></div></div>
+  <div class="caption"><span class="txt">גררו את הידית: למעלה לפתיחה, שמאלה לחם, ימינה לקר.</span><span class="live">LIVE</span></div>
+</section>
+
+<!-- 4 rotary switch -->
+<section class="slide" data-demo="rotary">
+  <div class="stage">
+    <div class="tile"></div><div class="arm"></div><div class="water"><i></i></div><div class="head"></div>
+    <div class="rail"></div>
+    <div class="track" style="left:170px;top:668px;width:560px;height:24px;background:linear-gradient(90deg,var(--hot),var(--cold))"></div>
+    <div class="ticks"></div>
+    <svg class="parc" width="300" height="300" viewBox="-150 -150 300 300" style="position:absolute;overflow:visible;pointer-events:none"></svg>
+    <div class="sw grab"><i></i><i></i><i></i></div>
+    <div class="tag" style="top:380px">סגור</div>
+  </div>
+  <div class="copy"><div class="eyebrow">מוצר 1 · פתרון 2 · סטודנט ב׳</div><h2>מתג מסתובב על ציר טמפרטורה</h2>
+    <p class="body">מתג מתכת: סיבוב שלו ממאוזן למאונך קובע את לחץ המים, וסקאלה סביבו מראה כמה הוא פתוח. הזזה על ציר אחד – מאדום לכחול, עם סקאלת מעלות – קובעת את הטמפרטורה, כך שרואים את התוצאה לפני שמרגישים אותה.</p>
+    <div class="chips"><span>מיפוי</span><span>משוב חזותי</span><span>אילוץ לציר אחד</span></div></div>
+  <div class="caption"><span class="txt">סובבו את המתג מהקצה כדי לפתוח (מאוזן – סגור, מאונך – מקסימום), וגררו אותו מהמרכז על הציר.</span><span class="live">LIVE</span></div>
+</section>
+
+<!-- 5 noa shower -->
+<section class="slide" data-demo="noaShower">
+  <div class="stage">
+    <div class="tile"></div><div class="arm"></div><div class="water"><i></i></div><div class="head"></div><div class="tag">סגור</div>
+    <div class="dots"></div>
+    <div class="hint" style="left:62px;top:655px">סגור</div><div class="hint" style="left:395px;top:500px">מקס׳</div>
+    <div class="bigknob grab" style="left:165px;top:505px"><b></b></div>
+    <div class="hint" style="left:240px;top:770px;color:var(--ink);font-size:26px;font-weight:700">זרימה</div>
+    <div class="hint" style="left:615px;top:462px;color:var(--hot);font-weight:700">חם</div>
+    <div class="hint" style="left:620px;top:746px;color:var(--cold);font-weight:700">קר</div>
+    <div class="track" style="left:616px;top:500px;width:28px;height:240px;background:linear-gradient(var(--hot),var(--cold));border:2px solid #CBD1D8"></div>
+    <div class="vticks"></div>
+    <div class="thumb grab"><i></i></div>
+    <div class="hint" style="left:570px;top:770px;color:var(--ink);font-size:26px;font-weight:700">טמפרטורה</div>
+  </div>
+  <div class="copy"><div class="eyebrow">מוצר 1 · פתרון 3 · נועה</div><h2>שתי בקרות, שני תפקידים</h2>
+    <p class="body">כפתור סיבוב בגודל כף יד שולט בעוצמת הזרימה, ומחוון אנכי עם סימוני מעלות שולט בטמפרטורה. צורה שונה לכל פעולה – מסובבים לזרימה, מחליקים לחום – כך שהבקרה עצמה מסבירה איך להשתמש בה.</p>
+    <div class="chips"><span>אפורדנס</span><span>מיפוי</span><span>סימנים</span></div></div>
+  <div class="caption"><span class="txt">סובבו את הכפתור לזרימה, וגררו את המחוון לטמפרטורה.</span><span class="live">LIVE</span></div>
+</section>
+
+<!-- 6 clock problem -->
+<section class="slide" data-demo="clockProblem">
+  <div class="phone"><div class="screen">
+    <div class="status">9:41</div><div class="island"></div>
+    <div class="alarms"></div>
+    <div class="sheet">
+      <div class="sh-head"><span class="o cancel">Cancel</span><b>Add Alarm</b><span class="o save">Save</span></div>
+      <div class="picker"><div class="bar"></div></div>
+      <div class="group"><div>Repeat<span>Never ›</span></div><div>Label<span>Alarm</span></div><div>Sound<span>Radial ›</span></div><div>Snooze<i class="tg on"></i></div></div>
+    </div>
+    <div class="homebar"></div>
+  </div></div>
+  <div class="copy"><div class="eyebrow">מוצר 2 · השעון המעורר באייפון · הבעיה</div><h2>גלגל, גלגל – ושקט</h2>
+    <p class="body">כיוון השעון נעשה בגלגלי גלילה קטנים שקל לפספס בהם. אחרי Save המסך נסגר בלי אישור – המשתמש לא יודע לאיזה יום נקבע השעון ובעוד כמה זמן הוא יצלצל.</p>
+    <div class="chips"><span>משוב</span><span>שימושיות</span><span>מניעת טעויות</span></div></div>
+  <div class="caption"><span class="txt">נסו לכוון ל־7:35 ולחצו Save. שימו לב למה שלא קורה.</span><button data-reset>התחלה מחדש</button></div>
+</section>
+
+<!-- 7 radial clock -->
+<section class="slide" data-demo="radial">
+  <div class="phone"><div class="screen">
+    <div class="status">9:41</div><div class="island"></div>
+    <div class="alarms"></div>
+    <div class="sheet">
+      <div class="sh-head"><span class="o cancel">Cancel</span><b>Add Alarm</b><span class="o save">Save</span></div>
+      <div class="tdisp"><span class="hh act">06</span>:<span class="mm">30</span></div>
+      <div class="legend">טבעת חיצונית: 1–12 · טבעת פנימית: 13–00</div>
+      <svg class="dial" width="300" height="300" viewBox="-150 -150 300 300"></svg>
+      <div class="group"><div>Repeat<span>Never ›</span></div><div>Label<span>Alarm</span></div><div>Sound<span>Radial ›</span></div><div>Snooze<i class="tg on"></i></div></div>
+    </div>
+    <div class="keypad"></div>
+    <div class="toast"><div class="ck">✓</div><div><b></b><span></span></div></div>
+    <div class="homebar"></div>
+  </div></div>
+  <div class="copy"><div class="eyebrow">מוצר 2 · פתרון 1 · סטודנט א׳</div><h2>חוגה רדיאלית ואישור ברור</h2>
+    <p class="body">בוחרים שעה על חוגה – טבעת חיצונית ל־1–12 ופנימית ל־13–00 – ומיד עוברים לדקות בקפיצות של 5. לדיוק: החלקה על הספרות (±1) או הקלדה. אחרי השמירה מופיעה הודעה: מתי, באיזה יום ובעוד כמה זמן.</p>
+    <div class="chips"><span>משוב</span><span>מיפוי טבעי</span><span>גמישות ויעילות</span></div></div>
+  <div class="caption"><span class="txt">בחרו שעה בחוגה, החליקו על הספרות לשינוי של 1, או הקישו עליהן להקלדה.</span><button data-reset>התחלה מחדש</button></div>
+</section>
+
+<!-- 8 clock solution 2 placeholder -->
+<section class="slide">
+  <div class="stage" style="background:rgba(255,255,255,.5);border:3px dashed #C9C2B6;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:24px;direction:rtl">
+    <div style="width:120px;height:120px;border-radius:50%;background:rgba(255,159,10,.15);position:relative">
+      <i style="position:absolute;left:32px;top:56px;width:56px;height:8px;border-radius:4px;background:var(--o)"></i>
+      <i style="position:absolute;left:56px;top:32px;width:8px;height:56px;border-radius:4px;background:var(--o)"></i></div>
+    <div class="eyebrow" style="font-size:28px">כאן יופיע הדמו החי</div>
+  </div>
+  <div class="copy"><div class="eyebrow">מוצר 2 · פתרון 2 · סטודנט ב׳</div><h2>פתרון 2 – בקרוב</h2>
+    <p class="body">הפתרון עדיין בעבודה.</p></div>
+</section>
+
+<!-- 9 noa clock -->
+<section class="slide" data-demo="noaClock">
+  <div class="phone"><div class="screen">
+    <div class="status">9:41</div><div class="island"></div>
+    <div class="alarms"></div>
+    <div class="sheet">
+      <div class="sh-head"><span class="o cancel">Cancel</span><b>Add Alarm</b><span class="o save dis">Save</span></div>
+      <div class="pages">
+        <div class="page q"><h4>When is the alarm for?</h4><p>Pick the day first, then the time</p>
+          <div class="card" data-day="0"><div class="bd"></div><div class="ct"><b>Today</b><span></span></div><div class="chev">›</div></div>
+          <div class="card" data-day="1"><div class="bd"></div><div class="ct"><b>Tomorrow</b><span></span></div><div class="chev">›</div></div>
+          <div class="card" data-day="other"><div class="bd"><svg width="22" height="22" viewBox="0 0 22 22"><rect x="2" y="4" width="18" height="16" rx="3" stroke="#FF9F0A" stroke-width="2" fill="none"/><path d="M2 9H20M7 2V6M15 2V6" stroke="#FF9F0A" stroke-width="2" stroke-linecap="round"/></svg></div><div class="ct"><b>Another day…</b><span>Pick a date</span></div><div class="chev">›</div></div>
+        </div>
+        <div class="page cal"><div class="mh"><span class="prev">‹</span><b class="mt"></b><span class="next">›</span></div><div class="grid"></div></div>
+        <div class="page tm"><div class="chiprow"><div class="dchip"></div><span class="chg">Change</span></div><div class="picker"><div class="bar"></div></div><div class="warn"></div></div>
+      </div>
+      <div class="group"><div>Repeat<span>Never ›</span></div><div>Label<span>Alarm</span></div><div>Sound<span>Radial ›</span></div><div>Snooze<i class="tg on"></i></div></div>
+    </div>
+    <div class="toast"><div class="ck">✓</div><div><b></b><span></span></div></div>
+    <div class="homebar"></div>
+  </div></div>
+  <div class="copy"><div class="eyebrow">מוצר 2 · פתרון 3 · נועה</div><h2>קודם היום, אחר כך השעה</h2>
+    <p class="body">לפני שבוחרים שעה, האפליקציה שואלת לאיזה יום השעון מיועד: היום, מחר או יום אחר בבורר תאריכים. כך המשתמש יודע תמיד לאיזה יום נקבע השעון, ואין הפתעות של ״חשבתי שזה למחר״.</p>
+    <div class="chips"><span>מניעת טעויות</span><span>מודל מנטלי</span><span>משוב</span></div></div>
+  <div class="caption"><span class="txt">בחרו יום, ואז שעה, ולחצו Save.</span><button data-reset>התחלה מחדש</button></div>
+</section>
+
+<!-- 10 closing -->
+<section class="slide dark">
+  <div class="copy" style="top:220px;width:1680px"><h1 style="font-size:200px">תודה!</h1>
+    <p class="body" style="color:#A6A9B0;font-size:56px;margin-top:30px">שאלות?</p>
+    <div class="chips" style="margin-top:80px"><span style="background:var(--hot);color:#fff;border:0;font-size:30px">מיפוי</span><span style="background:var(--cold);color:#fff;border:0;font-size:30px">סימנים</span><span style="background:var(--o);color:#fff;border:0;font-size:30px">משוב</span></div></div>
+</section>
+
+</div>
+<div id="nav"><button id="prev">→ הקודם</button><span id="count"></span><button id="next">הבא ←</button></div>
+
+<script>
+// ---------- helpers ----------
+const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
+const clamp=(v,a,b)=>Math.min(b,Math.max(a,v));
+const pad=n=>String(n).padStart(2,'0');
+let S=1;
+const lerp=(a,b,t)=>{const A=a.match(/\w\w/g).map(h=>parseInt(h,16)),B=b.match(/\w\w/g).map(h=>parseInt(h,16));return '#'+A.map((v,i)=>pad(Math.round(v+(B[i]-v)*t).toString(16))).join('')};
+const tempColor=t=>lerp('3E8EF7','E5484D',clamp((t-18)/(44-18),0,1));
+
+function setWater(stage,flow,temp,tagText){
+  const w=$('.water',stage), tag=$('.tag',stage);
+  if(flow<=0.02){w.style.opacity=0;tag.textContent='סגור';tag.style.background='#fff';tag.style.color='var(--mute)';return}
+  w.style.opacity=.9; w.style.width=(60+flow*170)+'px'; w.style.backgroundColor=tempColor(temp);
+  tag.textContent=tagText??Math.round(temp)+'°C'; tag.style.background=tempColor(temp); tag.style.color='#fff';
+}
+// pointer drag in deck pixels
+function drag(el,{down,move,up}){
+  let sx,sy,on=false;
+  el.addEventListener('pointerdown',e=>{on=true;sx=e.clientX;sy=e.clientY;el.setPointerCapture(e.pointerId);down&&down(e);e.preventDefault()});
+  el.addEventListener('pointermove',e=>{if(on)move&&move((e.clientX-sx)/S,(e.clientY-sy)/S,e)});
+  const end=e=>{if(!on)return;on=false;up&&up((e.clientX-sx)/S,(e.clientY-sy)/S,e)};
+  el.addEventListener('pointerup',end);el.addEventListener('pointercancel',end);
+}
+// rotary: clockwise degrees from 12 o'clock, accumulated
+function rotary(el,{value,min,max,onChange}){
+  let a=value,last=null;
+  const ang=e=>{const r=el.getBoundingClientRect();return Math.atan2(e.clientX-(r.left+r.width/2),-(e.clientY-(r.top+r.height/2)))*180/Math.PI};
+  drag(el,{down:e=>last=ang(e),move:(dx,dy,e)=>{let c=ang(e),d=c-last;if(d>180)d-=360;if(d<-180)d+=360;last=c;a=clamp(a+d,min,max);onChange(a)},up:()=>last=null});
+  onChange(a);
+}
+
+// ---------- shower: problem ----------
+function showerProblem(sl){
+  const st=$('.stage',sl), tag=$('.tag',st), w=$('.water',st);
+  const v={hot:0,cold:0}; let timer;
+  w.style.transition='width .25s, opacity .3s, background-color .6s 1.2s';
+  const update=()=>{
+    const h=v.hot/270,c=v.cold/270, flow=Math.min(1,h+c);
+    if(flow<=.02){setWater(st,0);return}
+    const temp=(h*60+c*12)/(h+c);
+    w.style.opacity=.9;w.style.width=(60+flow*170)+'px';w.style.backgroundColor=tempColor(temp);
+    tag.textContent='?°C';tag.style.background='#fff';tag.style.color='var(--mute)';
+    clearTimeout(timer);timer=setTimeout(()=>{if(temp>45){tag.textContent='רותח!';tag.style.background='var(--hot)';tag.style.color='#fff'}else if(temp<22){tag.textContent='קפוא!';tag.style.background='var(--cold)';tag.style.color='#fff'}},1500);
+  };
+  $$('.knob2',st).forEach(k=>rotary(k,{value:0,min:0,max:270,onChange:a=>{k.style.transform=`rotate(${-a}deg)`;v[k.dataset.k]=a;update()}}));
+}
+
+// ---------- shower: two-axis lever ----------
+function lever(sl){
+  const st=$('.stage',sl), g=$('#lever',st); let s=0,lift=0,s0,l0;
+  const render=()=>{g.setAttribute('transform',`translate(430,${672-lift}) rotate(${s*35})`);setWater(st,lift/60,31+s*13)};
+  drag(g,{down:()=>{s0=s;l0=lift},move:(dx,dy)=>{s=clamp(s0-dx/150,-1,1);lift=clamp(l0-dy,0,60);render()}});
+  render();
+}
+
+// ---------- shower: rotary switch slider (hot on the left) ----------
+function rotary2(sl){
+  const st=$('.stage',sl), sw=$('.sw',st), arc=$('.parc',st), tk=$('.ticks',st);
+  const X0=170,W=560,CY=680,R=135,tempAt=x=>45-(x-X0)/W*25;
+  [45,40,35,30,25,20].forEach(t=>{const x=X0+(45-t)/25*W;tk.insertAdjacentHTML('beforeend',`<div class="tick" style="left:${x-1.5}px;top:712px;width:3px;height:18px"></div><div class="tickl" style="left:${x-35}px;top:736px">${t}°</div>`)});
+  // pressure scale: quarter arc from horizontal (closed, 180°) to vertical (max, 270°)
+  const pt=(deg,r=R)=>[r*Math.cos(deg*Math.PI/180),r*Math.sin(deg*Math.PI/180)].map(v=>v.toFixed(1)).join(' ');
+  const arcD=a=>`M${pt(180)} A${R} ${R} 0 0 1 ${pt(180+a)}`;
+  let ticks='';for(let d=0;d<=90;d+=15)ticks+=`<path d="M${pt(180+d,R+12)} L${pt(180+d,R+24)}" stroke="#8A929C" stroke-width="3"/>`;
+  arc.innerHTML=`<path d="${arcD(90)}" stroke="#D3D9E0" stroke-width="14" fill="none" stroke-linecap="round"/><path class="on" stroke="#3E8EF7" stroke-width="14" fill="none" stroke-linecap="round"/>${ticks}
+    <text x="-${R+16}" y="44" text-anchor="middle" font-size="22" font-weight="600" fill="#5B6370">סגור</text><text x="-36" y="-${R+34}" text-anchor="middle" font-size="22" font-weight="600" fill="#5B6370">מקס׳</text>`;
+  const on=$('.on',arc);
+  let x=X0+(45-37)/25*W,a=0,mode,x0,last;
+  const ang=e=>{const r=sw.getBoundingClientRect();return Math.atan2(e.clientY-(r.top+r.height/2),e.clientX-(r.left+r.width/2))*180/Math.PI};
+  const render=()=>{sw.style.left=(x-120)+'px';sw.style.top=(CY-32)+'px';sw.style.transform=`rotate(${a}deg)`;
+    arc.style.left=(x-150)+'px';arc.style.top=(CY-150)+'px';on.setAttribute('d',a>0.5?arcD(a):'');
+    setWater(st,a/90,tempAt(x))};
+  sw.style.transition='none';
+  drag(sw,{down:e=>{const r=sw.getBoundingClientRect(),d=Math.hypot(e.clientX-(r.left+r.width/2),e.clientY-(r.top+r.height/2))/S;
+      mode=d>55?'turn':'slide';x0=x;last=ang(e)},
+    move:(dx,dy,e)=>{if(mode==='slide'){x=clamp(x0+dx,X0,X0+W)}else{const c=ang(e);let d=c-last;if(d>180)d-=360;if(d<-180)d+=360;last=c;a=clamp(a+d,0,90)}render()}});
+  render();
+}
+
+// ---------- shower: Noa (knob + vertical slider) ----------
+function noaShower(sl){
+  const st=$('.stage',sl), knob=$('.bigknob',st), th=$('.thumb',st), dots=$('.dots',st), vt=$('.vticks',st);
+  const KX=270,KY=610,A0=-110,A1=70,TOP=500,H=240,SX=630, yOf=t=>TOP+H-(t-20)/25*H;
+  for(let j=0;j<10;j++){const a=(A0+j*20)*Math.PI/180,r=135,d=6+j*1.3;dots.insertAdjacentHTML('beforeend',`<div class="fdot" style="left:${KX+r*Math.sin(a)-d/2}px;top:${KY-r*Math.cos(a)-d/2}px;width:${d}px;height:${d}px"></div>`)}
+  [20,25,30,35,40,45].forEach(t=>vt.insertAdjacentHTML('beforeend',`<div class="tick" style="left:${SX+22}px;top:${yOf(t)-1.5}px;width:16px;height:3px"></div><div class="tickl" style="left:${SX+46}px;top:${yOf(t)-14}px;text-align:left">${t}°</div>`));
+  let k=A0,t=37,t0;
+  const render=()=>{const flow=(k-A0)/(A1-A0);knob.style.transform=`rotate(${k}deg)`;
+    $$('.fdot',dots).forEach((d,j)=>d.style.opacity=(A0+j*20)<=k?1:.25);
+    th.style.left=(SX-55)+'px';th.style.top=(yOf(t)-22)+'px';$('i',th).style.background=tempColor(t);setWater(st,flow,t)};
+  rotary(knob,{value:A0,min:A0,max:A1,onChange:a=>{k=a;render()}});
+  drag(th,{down:()=>t0=t,move:(dx,dy)=>{t=clamp(t0-dy/H*25,20,45);render()}});
+  render();
+}
+
+// ---------- iOS bits ----------
+function alarmsHTML(){return `<div class="nav"><span class="o">Edit</span><span class="o plus">+</span></div><h3>Alarms</h3><div class="sec">Other</div>
+  <div class="arow off"><div><div class="t">6:00<small> AM</small></div><div class="s">Alarm</div></div><i class="tg"></i></div>
+  <div class="arow new hidden"><div><div class="t"></div><div class="s">Alarm</div></div><i class="tg on"></i></div>`}
+function wheel(values,idx){
+  const el=document.createElement('div');el.className='wheel';
+  el.innerHTML='<div class="sp"></div>'+values.map(v=>`<div>${v}</div>`).join('')+'<div class="sp"></div>';
+  let sy,st0,dragging=false;
+  el.addEventListener('pointerdown',e=>{if(e.pointerType!=='mouse')return;dragging=true;sy=e.clientY;st0=el.scrollTop;el.style.scrollSnapType='none';el.setPointerCapture(e.pointerId)});
+  el.addEventListener('pointermove',e=>{if(dragging)el.scrollTop=st0-(e.clientY-sy)/S});
+  el.addEventListener('pointerup',()=>{if(!dragging)return;dragging=false;el.style.scrollSnapType='';el.scrollTo({top:Math.round(el.scrollTop/34)*34,behavior:'smooth'})});
+  const api={el,get:()=>clamp(Math.round(el.scrollTop/34),0,values.length-1),set:i=>el.scrollTop=i*34};
+  requestAnimationFrame(()=>api.set(idx));
+  return api;
+}
+const H12=[...Array(12)].map((_,i)=>String(i+1)), M60=[...Array(60)].map((_,i)=>pad(i));
+function timePicker(host,h24,m){
+  const hw=wheel(H12,((h24+11)%12)),mw=wheel(M60,m),aw=wheel(['AM','PM'],h24>=12?1:0);
+  host.append(hw.el,mw.el,aw.el);
+  return {get:()=>{const h=hw.get()+1,ap=aw.get();return {h:(h%12)+(ap?12:0),m:mw.get()}},el:[hw.el,mw.el,aw.el],reset:(h,mm)=>{hw.set((h+11)%12);mw.set(mm);aw.set(h>=12?1:0)}};
+}
+const fmt12=(h,m)=>`${(h+11)%12+1}:${pad(m)}<small> ${h>=12?'PM':'AM'}</small>`;
+const heDay=d=>new Intl.DateTimeFormat('he-IL',{weekday:'long'}).format(d);
+const ddmm=d=>`${pad(d.getDate())}.${pad(d.getMonth()+1)}`;
+function fmtLeft(ms){
+  const tot=Math.max(1,Math.ceil(ms/60000)),d=Math.floor(tot/1440),h=Math.floor(tot%1440/60),m=tot%60,u=[];
+  if(d)u.push(d===1?'יום אחד':`${d} ימים`);
+  if(h)u.push(h===1?'שעה':`${h} שעות`);
+  if(m&&!d)u.push(m===1?'דקה':`${m} דקות`);
+  const a=u.slice(0,2);return 'בעוד '+(a.length===2?`${a[0]} ו־${a[1]}`:a[0]);
+}
+function nextAt(h,m,now=new Date()){const d=new Date(now);d.setHours(h,m,0,0);if(d<=now)d.setDate(d.getDate()+1);return d}
+function showToast(screen,title,sub){const t=$('.toast',screen);$('b',t).textContent=title;$('span',t).textContent=sub;t.classList.add('show')}
+function newAlarmRow(screen,h,m,sub){const r=$('.arow.new',screen);$('.t',r).innerHTML=fmt12(h,m);$('.s',r).textContent=sub;r.classList.remove('hidden')}
+
+// ---------- clock: problem ----------
+function clockProblem(sl){
+  const sc=$('.screen',sl),sheet=$('.sheet',sc);$('.alarms',sc).innerHTML=alarmsHTML();
+  const tp=timePicker($('.picker',sc),6,30);
+  $('.save',sc).onclick=()=>{const {h,m}=tp.get();sheet.classList.add('closed');newAlarmRow(sc,h,m,'Alarm')};
+  $('.cancel',sc).onclick=()=>sheet.classList.add('closed');
+  $('[data-reset]',sl).onclick=()=>{sheet.classList.remove('closed');$('.arow.new',sc).classList.add('hidden');tp.reset(6,30)};
+}
+
+// ---------- clock: radial ----------
+function radial(sl){
+  const sc=$('.screen',sl),sheet=$('.sheet',sc),svg=$('.dial',sc),hh=$('.hh',sc),mm=$('.mm',sc),disp=$('.tdisp',sc),kp=$('.keypad',sc),toast=$('.toast',sc);
+  $('.alarms',sc).innerHTML=alarmsHTML();
+  const RO=118,RI=80; let h=6,m=30,mode='h',buf=null;
+  const P=(a,r)=>[r*Math.sin(a*Math.PI/180),-r*Math.cos(a*Math.PI/180)];
+  function draw(){
+    hh.textContent=buf?buf.slice(0,2).padEnd(2,'–'):pad(h); mm.textContent=buf?buf.slice(2).padEnd(2,'–'):pad(m);
+    hh.classList.toggle('act',mode==='h');mm.classList.toggle('act',mode==='m');
+    const inner=mode==='h'&&(h>12||h===0), r=mode==='h'?(inner?RI:RO):RO, a=mode==='h'?(h%12)*30:m*6;
+    const [x,y]=P(a,r);
+    let s=`<circle r="150" fill="#2C2C2E"/><line x1="0" y1="0" x2="${x}" y2="${y}" stroke="#FF9F0A" stroke-width="2"/><circle cx="${x}" cy="${y}" r="22" fill="#FF9F0A"/><circle r="5" fill="#FF9F0A"/>`;
+    for(let k=1;k<=12;k++){const [ox,oy]=P(k*30,RO);s+=`<text x="${ox}" y="${oy}" dy=".35em" text-anchor="middle" fill="#fff" font-size="19" font-weight="500">${mode==='h'?k:pad(k%12*5)}</text>`;
+      if(mode==='h'){const [ix,iy]=P(k*30,RI);s+=`<text x="${ix}" y="${iy}" dy=".35em" text-anchor="middle" fill="#AEAEB2" font-size="14">${k===12?'00':k+12}</text>`}}
+    svg.innerHTML=s; $('.legend',sc).style.visibility=mode==='h'?'visible':'hidden';
+  }
+  const pick=e=>{const r=svg.getBoundingClientRect(),x=(e.clientX-r.left)/r.width*300-150,y=(e.clientY-r.top)/r.height*300-150;
+    const a=(Math.atan2(x,-y)*180/Math.PI+360)%360,k=Math.round(a/30)%12;
+    if(mode==='h'){const inner=Math.hypot(x,y)<(RO+RI)/2;h=inner?(k?k+12:0):(k||12)}else m=k*5; draw()};
+  let down=false;
+  svg.addEventListener('pointerdown',e=>{down=true;svg.setPointerCapture(e.pointerId);pick(e)});
+  svg.addEventListener('pointermove',e=>down&&pick(e));
+  svg.addEventListener('pointerup',()=>{down=false;if(mode==='h')setTimeout(()=>{mode='m';draw()},250)});
+  // swipe digits for ±1, tap to type
+  [[hh,'h'],[mm,'m']].forEach(([el,which])=>{let steps=0;
+    drag(el,{down:()=>steps=0,move:(dx,dy)=>{const n=Math.trunc(-dy/24);if(n!==steps){const d=n-steps;steps=n;mode=which;
+        if(which==='h')h=(h+d+24)%24;else m=(m+d+60)%60;draw()}},
+      up:()=>{if(steps===0){mode=which;openPad()}}});
+  });
+  kp.innerHTML=[1,2,3,4,5,6,7,8,9,'⌫',0,'OK'].map(k=>`<button class="${k==='OK'?'ok':''}">${k}</button>`).join('');
+  function openPad(){buf='';disp.classList.add('edit');disp.classList.remove('bad');kp.classList.add('show');draw()}
+  function closePad(){buf=null;disp.classList.remove('edit','bad');kp.classList.remove('show');draw()}
+  function key(k){if(buf===null)return;
+    if(k==='⌫')buf=buf.slice(0,-1);else if(k==='OK'){commit();return}else if(buf.length<4)buf+=k;
+    draw(); if(buf.length===4)setTimeout(commit,200)}
+  function commit(){const H=+buf.slice(0,2),M=+buf.slice(2);if(buf.length<4||H>23||M>59){disp.classList.add('bad');return}h=H;m=M;closePad()}
+  kp.addEventListener('click',e=>{const b=e.target.closest('button');if(b)key(b.textContent)});
+  sl.addEventListener('keydown',e=>{if(buf===null)return;if(/^\d$/.test(e.key))key(e.key);else if(e.key==='Backspace')key('⌫');else if(e.key==='Enter')key('OK');else return;e.stopPropagation();e.preventDefault()});
+  $('.save',sc).onclick=()=>{if(buf!==null)closePad();const at=nextAt(h,m),now=new Date();sheet.classList.add('closed');
+    newAlarmRow(sc,h,m,'Alarm');showToast(sc,`השעון המעורר נקבע ל־${pad(h)}:${pad(m)}`,`${heDay(at)}, ${ddmm(at)} · ${fmtLeft(at-now)}`)};
+  $('.cancel',sc).onclick=()=>sheet.classList.add('closed');
+  $('[data-reset]',sl).onclick=()=>{h=6;m=30;mode='h';closePad();sheet.classList.remove('closed');toast.classList.remove('show');$('.arow.new',sc).classList.add('hidden')};
+  draw();
+}
+
+// ---------- clock: Noa ----------
+function noaClock(sl){
+  const sc=$('.screen',sl),sheet=$('.sheet',sc),save=$('.save',sc),pg={q:$('.q',sc),cal:$('.cal',sc),tm:$('.tm',sc)},toast=$('.toast',sc),warn=$('.warn',sc);
+  $('.alarms',sc).innerHTML=alarmsHTML();
+  const en=d=>d.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'});
+  const today=()=>{const d=new Date();d.setHours(0,0,0,0);return d};
+  let date=null,view=today();view.setDate(1);
+  const order=['q','cal','tm'];
+  const show=p=>{const i=order.indexOf(p);order.forEach((k,j)=>pg[k].style.transform=`translateX(${(j-i)*100}%)`);save.classList.toggle('dis',p!=='tm');if(p==='tm')check()};
+  $$('.card',sc).forEach(c=>{const d=c.dataset.day;if(d!=='other'){const x=today();x.setDate(x.getDate()+ +d);$('.bd',c).textContent=x.getDate();$('.ct span',c).textContent=en(x)}
+    c.onclick=()=>{$$('.card',sc).forEach(o=>o.classList.toggle('sel',o===c));
+      setTimeout(()=>{if(d==='other'){drawCal();show('cal')}else{date=today();date.setDate(date.getDate()+ +d);toTime()}},220)}});
+  function drawCal(){
+    const g=$('.grid',sc),y=view.getFullYear(),mo=view.getMonth(),first=new Date(y,mo,1).getDay(),n=new Date(y,mo+1,0).getDate(),t0=today();
+    $('.mt',sc).textContent=view.toLocaleDateString('en-US',{month:'long',year:'numeric'});
+    let s=['S','M','T','W','T','F','S'].map(d=>`<div class="wd">${d}</div>`).join('')+'<div></div>'.repeat(first);
+    for(let d=1;d<=n;d++){const x=new Date(y,mo,d),c=x<t0?'past':+x===+t0?'today':'';s+=`<div class="${c}${date&&+x===+date?' sel':''}" data-d="${d}">${d}</div>`}
+    g.innerHTML=s;
+    $$('[data-d]',g).forEach(el=>{if(!el.classList.contains('past'))el.onclick=()=>{date=new Date(y,mo,+el.dataset.d);drawCal();setTimeout(toTime,250)}});
+  }
+  $('.prev',sc).onclick=()=>{const t=today();t.setDate(1);if(view>t){view.setMonth(view.getMonth()-1);drawCal()}};
+  $('.next',sc).onclick=()=>{view.setMonth(view.getMonth()+1);drawCal()};
+  const tp=timePicker($('.tm .picker',sc),7,30);
+  tp.el.forEach(w=>w.addEventListener('scroll',()=>{clearTimeout(w._t);w._t=setTimeout(check,120)}));
+  function target(){const {h,m}=tp.get(),d=new Date(date);d.setHours(h,m,0,0);return d}
+  function check(){if(!date)return;const bad=target()<=new Date();warn.textContent=bad?'השעה הזו כבר עברה היום – בחרו שעה מאוחרת יותר':'';save.classList.toggle('dis',bad)}
+  function toTime(){$('.dchip',sc).textContent=en(date);show('tm')}
+  $('.chg',sc).onclick=()=>{$$('.card',sc).forEach(o=>o.classList.remove('sel'));show('q')};
+  save.onclick=()=>{const at=target(),now=new Date();sheet.classList.add('closed');newAlarmRow(sc,at.getHours(),at.getMinutes(),'Alarm, '+en(at));
+    showToast(sc,`נקבע ל${heDay(at).replace('יום ','')} ${ddmm(at)}, ${pad(at.getHours())}:${pad(at.getMinutes())}`,'השעון יצלצל '+fmtLeft(at-now))};
+  $('.cancel',sc).onclick=()=>sheet.classList.add('closed');
+  $('[data-reset]',sl).onclick=()=>{date=null;view=today();view.setDate(1);$$('.card',sc).forEach(o=>o.classList.remove('sel'));tp.reset(7,30);warn.textContent='';
+    sheet.classList.remove('closed');toast.classList.remove('show');$('.arow.new',sc).classList.add('hidden');show('q')};
+  show('q');
+}
+
+// ---------- deck ----------
+const demos={showerProblem,lever,rotary:rotary2,noaShower,clockProblem,radial,noaClock};
+const slides=$$('.slide');
+slides.forEach(s=>{s.tabIndex=-1;const d=s.dataset.demo;if(d)demos[d](s)});
+let cur=0;
+function go(i){cur=clamp(i,0,slides.length-1);slides.forEach((s,j)=>s.classList.toggle('active',j===cur));slides[cur].focus({preventScroll:true});
+  $('#count').textContent=`${cur+1} / ${slides.length}`;history.replaceState(null,'','?slide='+(cur+1))}
+function fit(){S=Math.min(innerWidth/1920,innerHeight/1080);$('#deck').style.transform=`translate(-50%,-50%) scale(${S})`}
+addEventListener('resize',fit);fit();
+addEventListener('keydown',e=>{
+  if(['ArrowLeft','PageDown',' '].includes(e.key)){go(cur+1);e.preventDefault()}
+  else if(['ArrowRight','PageUp'].includes(e.key)){go(cur-1);e.preventDefault()}
+  else if(e.key==='Home')go(0);else if(e.key==='End')go(slides.length-1);
+});
+$('#next').onclick=()=>go(cur+1);$('#prev').onclick=()=>go(cur-1);
+go((+new URLSearchParams(location.search).get('slide')||1)-1);
+
+// ---------- self-check ----------
+console.assert(fmtLeft(8*3600e3+33*60e3)==='בעוד 8 שעות ו־33 דקות',fmtLeft(8*3600e3+33*60e3));
+console.assert(fmtLeft(4*86400e3+8*3600e3)==='בעוד 4 ימים ו־8 שעות');
+console.assert(nextAt(7,0,new Date(2026,9,22,23,3)).getDate()===23,'alarm wraps to tomorrow');
+console.assert(nextAt(23,30,new Date(2026,9,22,23,3)).getDate()===22,'alarm later today');
+</script>
+</body>
+</html>
