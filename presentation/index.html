@@ -12,23 +12,32 @@
 @font-face{font-family:Polin;src:url(fonts/Polin-Bold.otf);font-weight:700}
 @font-face{font-family:Polin;src:url(fonts/Polin-Extrabold.otf);font-weight:800}
 @font-face{font-family:Polin;src:url(fonts/Polin-Black.otf);font-weight:900}
-:root{--bg:#F4F1EC;--ink:#16181D;--mute:#6B6F76;--hot:#E5484D;--cold:#3E8EF7;--o:#FF9F0A;--g:#8E8E93;--ios:-apple-system,"SF Pro Text","SF Pro",Inter,system-ui,sans-serif}
+:root{--bg:#E8E4DE;--ink:#16181D;--mute:#6B6F76;--hot:#E5484D;--cold:#3E8EF7;--o:#FF9F0A;--g:#8E8E93;--ios:-apple-system,"SF Pro Text","SF Pro",Inter,system-ui,sans-serif}
 *{box-sizing:border-box}
 html,body{margin:0;height:100%;background:#0d0d0f;overflow:hidden;font-family:Polin,Heebo,sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased}
 #deck{position:absolute;left:50%;top:50%;width:1920px;height:1080px;transform-origin:center}
 .slide{position:absolute;inset:0;background:var(--bg);opacity:0;pointer-events:none;transition:opacity .45s;overflow:hidden}
 .slide.active{opacity:1;pointer-events:auto}
 .slide.dark{background:var(--ink);color:#fff}
+.title-cards{position:absolute;left:50%;top:600px;transform:translateX(-50%);display:flex;gap:40px;justify-content:center;align-items:stretch}
+.title-card{background:#fff;border-radius:28px;padding:28px 36px;text-align:center;box-shadow:0 12px 40px rgba(22,24,29,.06)}
+.title-card h2{font-size:38px;margin:10px 0 0;line-height:1.2;max-width:28ch;margin-inline:auto}
+.title-card .eyebrow{font-size:24px}
 .copy{position:absolute;right:120px;top:150px;width:740px}
 .eyebrow{font-size:26px;font-weight:600;color:var(--mute)}
 h1{font-size:150px;font-weight:900;margin:0;line-height:1.05}
 h2{font-size:68px;font-weight:700;margin:22px 0 26px;line-height:1.1}
 .body{font-size:30px;line-height:1.5;color:#3A3D44;margin:0}
+ul.body{margin:0;padding:0 1.2em 0 0;list-style:disc}
+ul.body li{margin:0 0 12px}
+ul.body li:last-child{margin-bottom:0}
+.knob-row{position:absolute;left:0;right:0;top:620px;display:flex;justify-content:center;align-items:flex-start;gap:200px}
+.knob-row .knob2{position:relative;left:auto;top:auto;flex:none}
+.knob2-turn{position:absolute;inset:0;transform-origin:50% 50%}
 .chips{display:flex;gap:12px;margin-top:28px}
 .chips span{background:#fff;border:1.5px solid #DDD7CC;border-radius:100px;padding:10px 20px;font-size:22px;font-weight:500}
 .caption{position:absolute;right:120px;top:800px;width:740px;background:var(--ink);color:#fff;border-radius:28px;padding:24px 32px;font-size:30px;font-weight:500;line-height:1.4;display:flex;gap:20px;align-items:center}
 .caption .txt{flex:1}
-.caption .live{flex:none;font-size:20px;font-weight:700;background:var(--hot);border-radius:100px;padding:6px 14px;letter-spacing:.05em}
 .caption button{flex:none;font:inherit;font-size:20px;font-weight:600;color:#fff;background:rgba(255,255,255,.14);border:0;border-radius:100px;padding:8px 18px;cursor:pointer}
 .stage{position:absolute;left:120px;top:120px;width:860px;height:840px;border-radius:40px;overflow:hidden;background:#E6EAEE;direction:ltr;touch-action:none;user-select:none}
 .stage .tile{position:absolute;left:0;right:0;top:280px;height:2px;background:#D5DBE1}
@@ -42,9 +51,9 @@ h2{font-size:68px;font-weight:700;margin:22px 0 26px;line-height:1.1}
 .grab{cursor:grab}.grab:active{cursor:grabbing}
 /* problem knobs */
 .knob2{position:absolute;width:160px;height:160px;border-radius:50%;background:radial-gradient(circle at 50% 35%,#fff,#C3C9D1 70%);border:3px solid #8E96A1;box-shadow:0 8px 20px rgba(0,0,0,.2)}
-.knob2 .bar{position:absolute;left:8px;top:62px;width:144px;height:36px;border-radius:18px;background:#AEB5BF;border:2px solid #8E96A1}
-.knob2 .cap{position:absolute;left:62px;top:62px;width:36px;height:36px;border-radius:50%;background:#F1F3F5;border:2px solid #8E96A1}
-.knob2 .dot{position:absolute;left:74px;top:74px;width:12px;height:12px;border-radius:50%}
+.knob2 .bar{position:absolute;left:50%;top:50%;width:118px;height:34px;transform:translate(-50%,-50%);border-radius:17px;background:#AEB5BF;border:2px solid #8E96A1}
+.knob2 .cap{position:absolute;left:50%;top:50%;width:34px;height:34px;transform:translate(-50%,-50%);border-radius:50%;background:#F1F3F5;border:2px solid #8E96A1}
+.knob2 .dot{position:absolute;left:50%;top:50%;width:12px;height:12px;transform:translate(-50%,-50%);border-radius:50%}
 /* rotary switch */
 .rail{position:absolute;left:90px;top:630px;width:680px;height:100px;border-radius:50px;background:#F7F8FA;border:3px solid #CBD1D8}
 .track{position:absolute;border-radius:14px}
@@ -91,6 +100,11 @@ h2{font-size:68px;font-weight:700;margin:22px 0 26px;line-height:1.1}
 .group div:first-child{border-top:0}
 .group span{color:var(--g)}
 .picker{position:relative;height:210px;display:flex;justify-content:center;gap:6px;margin-top:10px}
+.ios-opts{margin:8px 16px 0;display:flex;flex-direction:column;gap:14px}
+.ios-opts .group{position:static}
+.group .repeat-days{height:auto;border-top:0;padding:2px 12px 14px;justify-content:space-between}
+.repeat-days span{width:32px;height:32px;border-radius:50%;background:#3A3A3C;color:#E5E5EA;font-size:13px;font-weight:600;display:flex;align-items:center;justify-content:center;flex:none;cursor:pointer}
+.repeat-days span.on{background:var(--o);color:#1C1C1E}
 .picker .bar{position:absolute;left:16px;right:16px;top:88px;height:34px;background:rgba(118,118,128,.28);border-radius:8px;pointer-events:none}
 .wheel{width:64px;height:210px;overflow-y:scroll;scroll-snap-type:y mandatory;scrollbar-width:none;-webkit-mask-image:linear-gradient(transparent,#000 38%,#000 62%,transparent);mask-image:linear-gradient(transparent,#000 38%,#000 62%,transparent);position:relative;cursor:grab}
 .wheel::-webkit-scrollbar{display:none}
@@ -144,19 +158,19 @@ h2{font-size:68px;font-weight:700;margin:22px 0 26px;line-height:1.1}
 <div id="deck">
 
 <!-- 1 title -->
-<section class="slide">
+<section class="slide slide-title">
   <div class="copy" style="top:140px;width:1680px">
     <div class="eyebrow" style="font-size:30px">עיצוב אינטראקטיבי · אבירם פלג</div>
     <h1 style="margin-top:20px;font-size:120px">תרגיל 1</h1>
     <p class="body" style="font-size:44px;color:var(--mute);margin-top:30px">יסודות עיצוב אינטראקטיבי</p>
   </div>
-  <div style="position:absolute;right:120px;top:600px;display:flex;gap:80px">
-    <div style="width:800px;height:230px;background:#fff;border-radius:36px;padding:40px">
-      <div class="eyebrow">מקלחת</div><h2 style="font-size:48px;margin:14px 0 0">ברז עם שתי ידיות</h2></div>
-    <div style="width:800px;height:230px;background:#fff;border-radius:36px;padding:40px">
-      <div class="eyebrow">שעון</div><h2 style="font-size:48px;margin:14px 0 0">מעורר באייפון</h2></div>
+  <div class="title-cards">
+    <div class="title-card">
+      <div class="eyebrow">מוצר פיזי</div><h2>ברז מקלחת עם שתי ידיות</h2></div>
+    <div class="title-card">
+      <div class="eyebrow">מוצר דיגיטלי</div><h2>שעון מעורר באייפון</h2></div>
   </div>
-  <div class="eyebrow" style="position:absolute;right:120px;top:960px;color:var(--ink);font-size:30px">מגישים: נועה, יהונתן ורוני</div>
+  <div class="eyebrow" style="position:absolute;left:50%;transform:translateX(-50%);top:960px;color:var(--ink);font-size:30px;white-space:nowrap">מגישים: נועה, יהונתן ורוני</div>
 </section>
 
 <!-- 2 shower problem -->
@@ -164,13 +178,19 @@ h2{font-size:68px;font-weight:700;margin:22px 0 26px;line-height:1.1}
   <div class="stage">
     <div class="tile" style="top:280px"></div><div class="tile" style="top:560px"></div>
     <div class="arm"></div><div class="water"><i></i></div><div class="head"></div><div class="tag">?°C</div>
-    <div class="knob2 grab" data-k="hot" style="left:170px;top:620px"><div class="bar"></div><div class="cap"></div><div class="dot" style="background:var(--hot)"></div></div>
-    <div class="knob2 grab" data-k="cold" style="left:530px;top:620px"><div class="bar"></div><div class="cap"></div><div class="dot" style="background:var(--cold)"></div></div>
-    <div class="hint" style="left:205px;top:792px">ידית א׳</div><div class="hint" style="left:565px;top:792px">ידית ב׳</div>
+    <div class="knob-row">
+      <div class="knob2 grab" data-k="hot"><div class="knob2-turn"><div class="bar"></div><div class="cap"></div><div class="dot" style="background:var(--hot)"></div></div></div>
+      <div class="knob2 grab" data-k="cold"><div class="knob2-turn"><div class="bar"></div><div class="cap"></div><div class="dot" style="background:var(--cold)"></div></div></div>
+    </div>
+    <div class="hint" style="left:50%;transform:translateX(-50%);top:792px;width:360px;display:flex;justify-content:space-between;padding:0 10px">ידית א׳<span>ידית ב׳</span></div>
   </div>
   <div class="copy"><div class="eyebrow">מקלחת · הבעיה</div><h2>שתי ידיות</h2>
-    <p class="body">ידית אחת למים חמים וידית אחת לקרים. לא ברור כמה לסובב, וכל ידית משנה גם את העוצמה וגם את החום. הטמפרטורה מופיעה רק אחרי שהמים כבר זורמים.</p></div>
-  <div class="caption"><span class="txt">נסו להגיע ל־37°. הטמפרטורה מתעדכנת באיחור.</span><span class="live">LIVE</span></div>
+    <ul class="body">
+      <li>ידית אחת למים חמים ואחת למים קרים</li>
+      <li>לא ברור כמה צריך לסובב, שתיהן שולטות גם בזרם וגם בטמפרטורה</li>
+      <li>אין פידבק למשתמש, החוויה גרועה</li>
+    </ul></div>
+  <div class="caption"><span class="txt">נסו להגיע ל־37°. הטמפרטורה מתעדכנת באיחור.</span></div>
 </section>
 
 <!-- 3 noa shower -->
@@ -189,8 +209,12 @@ h2{font-size:68px;font-weight:700;margin:22px 0 26px;line-height:1.1}
     <div class="hint" style="left:570px;top:770px;color:var(--ink);font-size:26px;font-weight:700">טמפרטורה</div>
   </div>
   <div class="copy"><div class="eyebrow">מקלחת · פתרון 1 · נועה</div><h2>ידית וסליידר</h2>
-    <p class="body">ידית סיבובית לעוצמת המים, וסליידר לטמפרטורה. כל אחד עושה דבר אחד.</p></div>
-  <div class="caption"><span class="txt">סובבו את הידית לעוצמה, וגררו את הסליידר לטמפרטורה.</span><span class="live">LIVE</span></div>
+    <p class="body">ידית סיבובית לעוצמת המים, וסליידר לטמפרטורה. כל אחד עושה דבר אחד.</p>
+    <ul class="body">
+      <li>הפרדה פיזית בסוג אמצעי השליטה</li>
+      <li>פידבק למשתמש על טמפ׳ ועוצמה</li>
+    </ul></div>
+  <div class="caption"><span class="txt">סובבו את הידית לעוצמה, וגררו את הסליידר לטמפרטורה.</span></div>
 </section>
 
 <!-- 4 rotary switch -->
@@ -205,8 +229,12 @@ h2{font-size:68px;font-weight:700;margin:22px 0 26px;line-height:1.1}
     <div class="tag" style="top:380px">סגור</div>
   </div>
   <div class="copy"><div class="eyebrow">מקלחת · פתרון 2 · יהונתן</div><h2>סליידר עם ידית</h2>
-    <p class="body">סליידר אופקי לטמפרטורה, וידית סיבובית לעוצמה. על הסליידר יש מעלות, ועל הידית רואים כמה היא פתוחה.</p></div>
-  <div class="caption"><span class="txt">סובבו את הידית מהקצה לעוצמה, וגררו אותה על הסליידר לטמפרטורה.</span><span class="live">LIVE</span></div>
+    <p class="body">סליידר אופקי לטמפרטורה, וידית סיבובית לעוצמה. על הסליידר יש מעלות, ועל הידית רואים כמה היא פתוחה.</p>
+    <ul class="body">
+      <li>פידבק על טמפ׳ ועוצמה</li>
+      <li>בקר שליטה אחד, הפרדה בעזרת צירים ותנועות</li>
+    </ul></div>
+  <div class="caption"><span class="txt">סובבו את הידית מהקצה לעוצמה, וגררו אותה על הסליידר לטמפרטורה.</span></div>
 </section>
 
 <!-- 5 lever -->
@@ -238,8 +266,12 @@ h2{font-size:68px;font-weight:700;margin:22px 0 26px;line-height:1.1}
     <div class="hint" style="left:600px;top:440px">▲ זרימה</div>
   </div>
   <div class="copy"><div class="eyebrow">מקלחת · פתרון 3 · רוני</div><h2>ידית בשני צירים</h2>
-    <p class="body">ידית אחת. הרמה קובעת את העוצמה, ימינה ושמאלה את הטמפרטורה. שמאלה חם, ימינה קר.</p></div>
-  <div class="caption"><span class="txt">גררו למעלה לעוצמה, שמאלה לחם וימינה לקר.</span><span class="live">LIVE</span></div>
+    <p class="body">ידית אחת. הרמה קובעת את העוצמה, ימינה ושמאלה את הטמפרטורה. שמאלה חם, ימינה קר.</p>
+    <ul class="body">
+      <li>שימוש בידית אחת בעלת 2 צירים כדי לשלוט בהכל</li>
+      <li>פידבק למשתמש על טמפ׳ ועוצמה בעזרת זווית הידית</li>
+    </ul></div>
+  <div class="caption"><span class="txt">גררו למעלה לעוצמה, שמאלה לחם וימינה לקר.</span></div>
 </section>
 
 <!-- 6 clock problem -->
@@ -250,12 +282,23 @@ h2{font-size:68px;font-weight:700;margin:22px 0 26px;line-height:1.1}
     <div class="sheet">
       <div class="sh-head"><span class="o cancel">Cancel</span><b>Add Alarm</b><span class="o save">Save</span></div>
       <div class="picker"><div class="bar"></div></div>
-      <div class="group"><div>Repeat<span>Never ›</span></div><div>Label<span>Alarm</span></div><div>Sound<span>Radial ›</span></div><div>Snooze<i class="tg on"></i></div></div>
+      <div class="ios-opts">
+        <div class="group">
+          <div>Repeat<span class="rep-val">Never</span></div>
+          <div class="repeat-days"><span data-i="0">S</span><span data-i="1">M</span><span data-i="2">T</span><span data-i="3">W</span><span data-i="4">T</span><span data-i="5">F</span><span data-i="6">S</span></div>
+        </div>
+        <div class="group"><div>Label<span>Alarm</span></div><div>Sound<span>Radial ›</span></div><div>Snooze<i class="tg on"></i></div></div>
+      </div>
     </div>
     <div class="homebar"></div>
   </div></div>
   <div class="copy"><div class="eyebrow">שעון מעורר · הבעיה</div><h2>בלי אישור</h2>
-    <p class="body">בוחרים שעה בגלגלים קטנים. אחרי Save המסך נסגר, בלי להגיד לאיזה יום נקבע השעון ומתי הוא יצלצל.</p></div>
+    <p class="body">הבעיות בקביעת שעון מעורר:</p>
+    <ul class="body">
+      <li>הסליידר של הדקות/שעות אינסופי</li>
+      <li>אין מחשבה על המשתמש הממוצע — למה שמישהו ירצה לקבוע שעון ל־7:42 (בדרך כלל עובדים בקפיצות של 5)</li>
+      <li>כדי להזין שעה מדויקת צריך ללחוץ על השעות (קשה לגלות את זה)</li>
+    </ul></div>
   <div class="caption"><span class="txt">כוונו ל־7:35 ולחצו Save.</span><button data-reset>התחלה מחדש</button></div>
 </section>
 
@@ -280,8 +323,11 @@ h2{font-size:68px;font-weight:700;margin:22px 0 26px;line-height:1.1}
     <div class="toast"><div class="ck">✓</div><div><b></b><span></span></div></div>
     <div class="homebar"></div>
   </div></div>
-  <div class="copy"><div class="eyebrow">שעון מעורר · פתרון 1 · נועה</div><h2>קודם היום, אחר כך השעה</h2>
-    <p class="body">קודם בוחרים יום — היום, מחר, או תאריך אחר — ורק אז את השעה.</p></div>
+  <div class="copy"><div class="eyebrow">שעון מעורר · פתרון 1 · נועה</div><h2>קודם היום,<br>אחר כך השעה</h2>
+    <ul class="body">
+      <li>קודם בוחרים יום (היום, מחר, אחר)</li>
+      <li>אחר כך בוחרים שעה</li>
+    </ul></div>
   <div class="caption"><span class="txt">בחרו יום, אחר כך שעה, ולחצו Save.</span><button data-reset>התחלה מחדש</button></div>
 </section>
 
@@ -302,7 +348,10 @@ h2{font-size:68px;font-weight:700;margin:22px 0 26px;line-height:1.1}
     <div class="homebar"></div>
   </div></div>
   <div class="copy"><div class="eyebrow">שעון מעורר · פתרון 2 · יהונתן</div><h2>חוגה ואישור</h2>
-    <p class="body">בוחרים שעה על חוגה. אחרי Save מופיע אישור: היום, השעה, ובעוד כמה זמן.</p></div>
+    <ul class="body">
+      <li>בוחרים שעה בלחיצה על החוגה (שעות ואז דקות)</li>
+      <li>אחרי שמירה יש הודעה על אישור הקביעה + כמה זמן נותר לשעון</li>
+    </ul></div>
   <div class="caption"><span class="txt">בחרו שעה בחוגה, ואז Save. אפשר גם להחליק על המספרים או להקליד.</span><button data-reset>התחלה מחדש</button></div>
 </section>
 
@@ -320,8 +369,11 @@ h2{font-size:68px;font-weight:700;margin:22px 0 26px;line-height:1.1}
 
 <!-- 10 closing -->
 <section class="slide dark">
-  <div class="copy" style="top:220px;width:1680px"><h1 style="font-size:200px">תודה!</h1>
+  <div class="eyebrow" style="position:absolute;right:120px;top:80px;color:#A6A9B0;font-size:30px">יסודות עיצוב אינטראקטיבי · אבירם פלג</div>
+  <div class="copy" style="top:0;bottom:0;width:1680px;display:flex;flex-direction:column;justify-content:center">
+    <h1 style="font-size:200px">תודה!</h1>
     <p class="body" style="color:#A6A9B0;font-size:56px;margin-top:30px">שאלות?</p></div>
+  <div class="eyebrow" style="position:absolute;right:120px;top:960px;color:#A6A9B0;font-size:30px">מגישים: נועה, יהונתן ורוני</div>
 </section>
 
 </div>
@@ -371,7 +423,12 @@ function showerProblem(sl){
     tag.textContent='?°C';tag.style.background='#fff';tag.style.color='var(--mute)';
     clearTimeout(timer);timer=setTimeout(()=>{if(temp>45){tag.textContent='רותח!';tag.style.background='var(--hot)';tag.style.color='#fff'}else if(temp<22){tag.textContent='קפוא!';tag.style.background='var(--cold)';tag.style.color='#fff'}},1500);
   };
-  $$('.knob2',st).forEach(k=>rotary(k,{value:0,min:0,max:270,onChange:a=>{k.style.transform=`rotate(${-a}deg)`;v[k.dataset.k]=a;update()}}));
+  $$('.knob2',st).forEach(k=>{
+    const turn=$('.knob2-turn',k); let a=0,a0=0;
+    const set=aVal=>{a=aVal;turn.style.transform=`rotate(${-a}deg)`;v[k.dataset.k]=a;update()};
+    drag(k,{down:()=>{a0=a},move:(dx)=>set(clamp(a0+dx/1.15,0,270))});
+    set(0);
+  });
 }
 
 // ---------- shower: two-axis lever ----------
@@ -395,14 +452,23 @@ function rotary2(sl){
     <text x="-${R+16}" y="44" text-anchor="middle" font-size="22" font-weight="600" fill="#5B6370">סגור</text><text x="-36" y="-${R+34}" text-anchor="middle" font-size="22" font-weight="600" fill="#5B6370">מקס׳</text>`;
   const on=$('.on',arc);
   let x=X0+(45-37)/25*W,a=0,mode,x0,last;
+  const HLOCK=0.75; // slide locked only when handle is fully horizontal
   const ang=e=>{const r=sw.getBoundingClientRect();return Math.atan2(e.clientY-(r.top+r.height/2),e.clientX-(r.left+r.width/2))*180/Math.PI};
   const render=()=>{sw.style.left=(x-120)+'px';sw.style.top=(CY-32)+'px';sw.style.transform=`rotate(${a}deg)`;
     arc.style.left=(x-150)+'px';arc.style.top=(CY-150)+'px';on.setAttribute('d',a>0.5?arcD(a):'');
     setWater(st,a/90,tempAt(x))};
   sw.style.transition='none';
-  drag(sw,{down:e=>{const r=sw.getBoundingClientRect(),d=Math.hypot(e.clientX-(r.left+r.width/2),e.clientY-(r.top+r.height/2))/S;
-      mode=d>55?'turn':'slide';x0=x;last=ang(e)},
-    move:(dx,dy,e)=>{if(mode==='slide'){x=clamp(x0+dx,X0,X0+W)}else{const c=ang(e);let d=c-last;if(d>180)d-=360;if(d<-180)d+=360;last=c;a=clamp(a+d,0,90)}render()}});
+  drag(sw,{down:e=>{mode=null;x0=x;last=ang(e)},
+    move:(dx,dy,e)=>{
+      if(mode===null && (Math.abs(dx)>5||Math.abs(dy)>5))mode=Math.abs(dx)>Math.abs(dy)?'slide':'turn';
+      if(mode==='slide'){
+        if(a<=HLOCK)return;
+        x=clamp(x0+dx,X0,X0+W);
+      }else if(mode==='turn'){
+        const c=ang(e);let d=c-last;if(d>180)d-=360;if(d<-180)d+=360;last=c;a=clamp(a+d,0,90);
+      }
+      render();
+    }});
   render();
 }
 
@@ -423,26 +489,33 @@ function noaShower(sl){
 
 // ---------- iOS bits ----------
 function alarmsHTML(){return `<div class="nav"><span class="o">Edit</span><span class="o plus">+</span></div><h3>Alarms</h3><div class="sec">Other</div>
-  <div class="arow off"><div><div class="t">6:00<small> AM</small></div><div class="s">Alarm</div></div><i class="tg"></i></div>
+  <div class="arow off"><div><div class="t">06:00</div><div class="s">Alarm</div></div><i class="tg"></i></div>
   <div class="arow new hidden"><div><div class="t"></div><div class="s">Alarm</div></div><i class="tg on"></i></div>`}
-function wheel(values,idx){
+function wheel(len,idx,label){
+  const REPS=5,mid=Math.floor(REPS/2),ROW=34,fmt=label||((i)=>pad(i));
+  const vals=[];for(let r=0;r<REPS;r++)for(let i=0;i<len;i++)vals.push(fmt(i));
   const el=document.createElement('div');el.className='wheel';
-  el.innerHTML='<div class="sp"></div>'+values.map(v=>`<div>${v}</div>`).join('')+'<div class="sp"></div>';
+  el.innerHTML='<div class="sp"></div>'+vals.map(v=>`<div>${v}</div>`).join('')+'<div class="sp"></div>';
+  const block=len*ROW;
+  const normalize=()=>{
+    if(el.scrollTop<block*0.5)el.scrollTop+=block*(REPS-1);
+    else if(el.scrollTop>block*(REPS-0.5))el.scrollTop-=block*(REPS-1);
+  };
   let sy,st0,dragging=false;
   el.addEventListener('pointerdown',e=>{if(e.pointerType!=='mouse')return;dragging=true;sy=e.clientY;st0=el.scrollTop;el.style.scrollSnapType='none';el.setPointerCapture(e.pointerId)});
   el.addEventListener('pointermove',e=>{if(dragging)el.scrollTop=st0-(e.clientY-sy)/S});
-  el.addEventListener('pointerup',()=>{if(!dragging)return;dragging=false;el.style.scrollSnapType='';el.scrollTo({top:Math.round(el.scrollTop/34)*34,behavior:'smooth'})});
-  const api={el,get:()=>clamp(Math.round(el.scrollTop/34),0,values.length-1),set:i=>el.scrollTop=i*34};
+  el.addEventListener('pointerup',()=>{if(!dragging)return;dragging=false;el.style.scrollSnapType='';el.scrollTop=Math.round(el.scrollTop/ROW)*ROW;normalize()});
+  el.addEventListener('scroll',()=>{if(dragging)return;clearTimeout(el._n);el._n=setTimeout(normalize,90)});
+  const api={el,get:()=>{normalize();return((Math.round(el.scrollTop/ROW)%len)+len)%len},set:i=>{el.scrollTop=mid*block+(i%len)*ROW}};
   requestAnimationFrame(()=>api.set(idx));
   return api;
 }
-const H12=[...Array(12)].map((_,i)=>String(i+1)), M60=[...Array(60)].map((_,i)=>pad(i));
 function timePicker(host,h24,m){
-  const hw=wheel(H12,((h24+11)%12)),mw=wheel(M60,m),aw=wheel(['AM','PM'],h24>=12?1:0);
-  host.append(hw.el,mw.el,aw.el);
-  return {get:()=>{const h=hw.get()+1,ap=aw.get();return {h:(h%12)+(ap?12:0),m:mw.get()}},el:[hw.el,mw.el,aw.el],reset:(h,mm)=>{hw.set((h+11)%12);mw.set(mm);aw.set(h>=12?1:0)}};
+  const hw=wheel(24,h24),mw=wheel(60,m);
+  host.append(hw.el,mw.el);
+  return {get:()=>({h:hw.get(),m:mw.get()}),el:[hw.el,mw.el],reset:(h,mm)=>{hw.set(h);mw.set(mm)}};
 }
-const fmt12=(h,m)=>`${(h+11)%12+1}:${pad(m)}<small> ${h>=12?'PM':'AM'}</small>`;
+const fmt24=(h,m)=>`${pad(h)}:${pad(m)}`;
 const heDay=d=>new Intl.DateTimeFormat('he-IL',{weekday:'long'}).format(d);
 const ddmm=d=>`${pad(d.getDate())}.${pad(d.getMonth()+1)}`;
 function fmtLeft(ms){
@@ -454,15 +527,27 @@ function fmtLeft(ms){
 }
 function nextAt(h,m,now=new Date()){const d=new Date(now);d.setHours(h,m,0,0);if(d<=now)d.setDate(d.getDate()+1);return d}
 function showToast(screen,title,sub){const t=$('.toast',screen);$('b',t).textContent=title;$('span',t).textContent=sub;t.classList.add('show')}
-function newAlarmRow(screen,h,m,sub){const r=$('.arow.new',screen);$('.t',r).innerHTML=fmt12(h,m);$('.s',r).textContent=sub;r.classList.remove('hidden')}
+function newAlarmRow(screen,h,m,sub){const r=$('.arow.new',screen);$('.t',r).innerHTML=fmt24(h,m);$('.s',r).textContent=sub;r.classList.remove('hidden')}
 
 // ---------- clock: problem ----------
 function clockProblem(sl){
   const sc=$('.screen',sl),sheet=$('.sheet',sc);$('.alarms',sc).innerHTML=alarmsHTML();
   const tp=timePicker($('.picker',sc),6,30);
-  $('.save',sc).onclick=()=>{const {h,m}=tp.get();sheet.classList.add('closed');newAlarmRow(sc,h,m,'Alarm')};
+  const days=$$('.repeat-days span',sc), on=new Set(), names=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  const label=()=>{
+    const i=[...on].sort((a,b)=>a-b);
+    if(!i.length)return 'Never';
+    if(i.length===7)return 'Every Day';
+    if(i.length===2&&on.has(0)&&on.has(6))return 'Weekends';
+    if(i.length===5&&!on.has(0)&&!on.has(6))return 'Weekdays';
+    if(i.length===2)return names[i[0]]+' and '+names[i[1]];
+    return i.map(n=>names[n]).join(', ');
+  };
+  const paint=()=>{days.forEach(d=>d.classList.toggle('on',on.has(+d.dataset.i)));$('.rep-val',sc).textContent=label()};
+  days.forEach(d=>d.onclick=()=>{const i=+d.dataset.i;on.has(i)?on.delete(i):on.add(i);paint()});
+  $('.save',sc).onclick=()=>{const {h,m}=tp.get();sheet.classList.add('closed');newAlarmRow(sc,h,m,label()==='Never'?'Alarm':label())};
   $('.cancel',sc).onclick=()=>sheet.classList.add('closed');
-  $('[data-reset]',sl).onclick=()=>{sheet.classList.remove('closed');$('.arow.new',sc).classList.add('hidden');tp.reset(6,30)};
+  $('[data-reset]',sl).onclick=()=>{sheet.classList.remove('closed');$('.arow.new',sc).classList.add('hidden');tp.reset(6,30);on.clear();paint()};
 }
 
 // ---------- clock: radial ----------
@@ -515,7 +600,7 @@ function noaClock(sl){
   const sc=$('.screen',sl),sheet=$('.sheet',sc),save=$('.save',sc),pg={q:$('.q',sc),cal:$('.cal',sc),tm:$('.tm',sc)},toast=$('.toast',sc),warn=$('.warn',sc);
   $('.alarms',sc).innerHTML=alarmsHTML();
   const en=d=>d.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'});
-  const today=()=>{const d=new Date();d.setHours(0,0,0,0);return d};
+  const today=()=>{const d=new Date();d.setHours(0,0,0,0);d.setDate(d.getDate()+(7-d.getDay())%7);return d};
   let date=null,view=today();view.setDate(1);
   const order=['q','cal','tm'];
   const show=p=>{const i=order.indexOf(p);order.forEach((k,j)=>pg[k].style.transform=`translateX(${(j-i)*100}%)`);save.classList.toggle('dis',p!=='tm');if(p==='tm')check()};
