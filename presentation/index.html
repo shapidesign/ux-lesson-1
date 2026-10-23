@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>כשהעיצוב לא מדבר</title>
+<title>תרגיל 1 · יסודות עיצוב אינטראקטיבי</title>
 <style>
 @font-face{font-family:Polin;src:url(fonts/Polin-Light.otf);font-weight:300}
 @font-face{font-family:Polin;src:url(fonts/Polin-Regular.otf);font-weight:400}
@@ -146,17 +146,17 @@ h2{font-size:68px;font-weight:700;margin:22px 0 26px;line-height:1.1}
 <!-- 1 title -->
 <section class="slide">
   <div class="copy" style="top:140px;width:1680px">
-    <div class="eyebrow" style="font-size:30px">עיצוב אינטראקטיבי · מרצה: אבירם פלג</div>
-    <h1 style="margin-top:20px">כשהעיצוב לא מדבר</h1>
-    <p class="body" style="font-size:44px;color:var(--mute);margin-top:30px">שני מוצרים יומיומיים, בעיות שימושיות ומשוב – והצעות לתיקון</p>
+    <div class="eyebrow" style="font-size:30px">עיצוב אינטראקטיבי · אבירם פלג</div>
+    <h1 style="margin-top:20px;font-size:120px">תרגיל 1</h1>
+    <p class="body" style="font-size:44px;color:var(--mute);margin-top:30px">יסודות עיצוב אינטראקטיבי</p>
   </div>
   <div style="position:absolute;right:120px;top:600px;display:flex;gap:80px">
     <div style="width:800px;height:230px;background:#fff;border-radius:36px;padding:40px">
-      <div class="eyebrow">מוצר פיזי</div><h2 style="font-size:48px;margin:14px 0 0">ברז מקלחת עם שתי ידיות</h2></div>
+      <div class="eyebrow">מקלחת</div><h2 style="font-size:48px;margin:14px 0 0">ברז עם שתי ידיות</h2></div>
     <div style="width:800px;height:230px;background:#fff;border-radius:36px;padding:40px">
-      <div class="eyebrow">מוצר דיגיטלי</div><h2 style="font-size:48px;margin:14px 0 0">השעון המעורר באייפון</h2></div>
+      <div class="eyebrow">שעון</div><h2 style="font-size:48px;margin:14px 0 0">מעורר באייפון</h2></div>
   </div>
-  <div class="eyebrow" style="position:absolute;right:120px;top:960px;color:var(--ink);font-size:30px">סטודנט א׳ · סטודנט ב׳ · נועה</div>
+  <div class="eyebrow" style="position:absolute;right:120px;top:960px;color:var(--ink);font-size:30px">מגישים: נועה, יהונתן ורוני</div>
 </section>
 
 <!-- 2 shower problem -->
@@ -168,13 +168,48 @@ h2{font-size:68px;font-weight:700;margin:22px 0 26px;line-height:1.1}
     <div class="knob2 grab" data-k="cold" style="left:530px;top:620px"><div class="bar"></div><div class="cap"></div><div class="dot" style="background:var(--cold)"></div></div>
     <div class="hint" style="left:205px;top:792px">ידית א׳</div><div class="hint" style="left:565px;top:792px">ידית ב׳</div>
   </div>
-  <div class="copy"><div class="eyebrow">מוצר 1 · ברז מקלחת · הבעיה</div><h2>שתי ידיות, אפס משוב</h2>
-    <p class="body">ידית אחת לחם וידית אחת לקר. המשתמש לא יודע כמה לסובב, כל ידית משנה גם זרימה וגם טמפרטורה, והמשוב מגיע באיחור – ישר על הגוף.</p>
-    <div class="chips"><span>מיפוי</span><span>משוב</span><span>סימנים</span></div></div>
-  <div class="caption"><span class="txt">נסו להגיע ל־37°C: סובבו את הידיות. הטמפרטורה מתעדכנת רק אחרי השהייה.</span><span class="live">LIVE</span></div>
+  <div class="copy"><div class="eyebrow">מקלחת · הבעיה</div><h2>שתי ידיות</h2>
+    <p class="body">ידית אחת למים חמים וידית אחת לקרים. לא ברור כמה לסובב, וכל ידית משנה גם את העוצמה וגם את החום. הטמפרטורה מופיעה רק אחרי שהמים כבר זורמים.</p></div>
+  <div class="caption"><span class="txt">נסו להגיע ל־37°. הטמפרטורה מתעדכנת באיחור.</span><span class="live">LIVE</span></div>
 </section>
 
-<!-- 3 lever -->
+<!-- 3 noa shower -->
+<section class="slide" data-demo="noaShower">
+  <div class="stage">
+    <div class="tile"></div><div class="arm"></div><div class="water"><i></i></div><div class="head"></div><div class="tag">סגור</div>
+    <div class="dots"></div>
+    <div class="hint" style="left:62px;top:655px">סגור</div><div class="hint" style="left:395px;top:500px">מקס׳</div>
+    <div class="bigknob grab" style="left:165px;top:505px"><b></b></div>
+    <div class="hint" style="left:240px;top:770px;color:var(--ink);font-size:26px;font-weight:700">זרימה</div>
+    <div class="hint" style="left:615px;top:462px;color:var(--hot);font-weight:700">חם</div>
+    <div class="hint" style="left:620px;top:746px;color:var(--cold);font-weight:700">קר</div>
+    <div class="track" style="left:616px;top:500px;width:28px;height:240px;background:linear-gradient(var(--hot),var(--cold));border:2px solid #CBD1D8"></div>
+    <div class="vticks"></div>
+    <div class="thumb grab"><i></i></div>
+    <div class="hint" style="left:570px;top:770px;color:var(--ink);font-size:26px;font-weight:700">טמפרטורה</div>
+  </div>
+  <div class="copy"><div class="eyebrow">מקלחת · פתרון 1 · נועה</div><h2>ידית וסליידר</h2>
+    <p class="body">ידית סיבובית לעוצמת המים, וסליידר לטמפרטורה. כל אחד עושה דבר אחד.</p></div>
+  <div class="caption"><span class="txt">סובבו את הידית לעוצמה, וגררו את הסליידר לטמפרטורה.</span><span class="live">LIVE</span></div>
+</section>
+
+<!-- 4 rotary switch -->
+<section class="slide" data-demo="rotary">
+  <div class="stage">
+    <div class="tile"></div><div class="arm"></div><div class="water"><i></i></div><div class="head"></div>
+    <div class="rail"></div>
+    <div class="track" style="left:170px;top:668px;width:560px;height:24px;background:linear-gradient(90deg,var(--hot),var(--cold))"></div>
+    <div class="ticks"></div>
+    <svg class="parc" width="300" height="300" viewBox="-150 -150 300 300" style="position:absolute;overflow:visible;pointer-events:none"></svg>
+    <div class="sw grab"><i></i><i></i><i></i></div>
+    <div class="tag" style="top:380px">סגור</div>
+  </div>
+  <div class="copy"><div class="eyebrow">מקלחת · פתרון 2 · יהונתן</div><h2>סליידר עם ידית</h2>
+    <p class="body">סליידר אופקי לטמפרטורה, וידית סיבובית לעוצמה. על הסליידר יש מעלות, ועל הידית רואים כמה היא פתוחה.</p></div>
+  <div class="caption"><span class="txt">סובבו את הידית מהקצה לעוצמה, וגררו אותה על הסליידר לטמפרטורה.</span><span class="live">LIVE</span></div>
+</section>
+
+<!-- 5 lever -->
 <section class="slide" data-demo="lever">
   <div class="stage">
     <div class="tile"></div><div class="arm"></div><div class="water"><i></i></div><div class="head"></div><div class="tag">סגור</div>
@@ -202,48 +237,9 @@ h2{font-size:68px;font-weight:700;margin:22px 0 26px;line-height:1.1}
     </svg>
     <div class="hint" style="left:600px;top:440px">▲ זרימה</div>
   </div>
-  <div class="copy"><div class="eyebrow">מוצר 1 · פתרון 1 · סטודנט א׳</div><h2>ידית אחת, שני צירים</h2>
-    <p class="body">למעלה ולמטה שולטים בזרימה. שמאלה – חם, ימינה – קר. סימון אדום וכחול משני צידי הידית מראה מראש לאן להזיז אותה, וכל שינוי מורגש מיד.</p>
-    <div class="chips"><span>מיפוי טבעי</span><span>סימנים</span><span>משוב מיידי</span></div></div>
-  <div class="caption"><span class="txt">גררו את הידית: למעלה לפתיחה, שמאלה לחם, ימינה לקר.</span><span class="live">LIVE</span></div>
-</section>
-
-<!-- 4 rotary switch -->
-<section class="slide" data-demo="rotary">
-  <div class="stage">
-    <div class="tile"></div><div class="arm"></div><div class="water"><i></i></div><div class="head"></div>
-    <div class="rail"></div>
-    <div class="track" style="left:170px;top:668px;width:560px;height:24px;background:linear-gradient(90deg,var(--hot),var(--cold))"></div>
-    <div class="ticks"></div>
-    <svg class="parc" width="300" height="300" viewBox="-150 -150 300 300" style="position:absolute;overflow:visible;pointer-events:none"></svg>
-    <div class="sw grab"><i></i><i></i><i></i></div>
-    <div class="tag" style="top:380px">סגור</div>
-  </div>
-  <div class="copy"><div class="eyebrow">מוצר 1 · פתרון 2 · סטודנט ב׳</div><h2>מתג מסתובב על ציר טמפרטורה</h2>
-    <p class="body">מתג מתכת: סיבוב שלו ממאוזן למאונך קובע את לחץ המים, וסקאלה סביבו מראה כמה הוא פתוח. הזזה על ציר אחד – מאדום לכחול, עם סקאלת מעלות – קובעת את הטמפרטורה, כך שרואים את התוצאה לפני שמרגישים אותה.</p>
-    <div class="chips"><span>מיפוי</span><span>משוב חזותי</span><span>אילוץ לציר אחד</span></div></div>
-  <div class="caption"><span class="txt">סובבו את המתג מהקצה כדי לפתוח (מאוזן – סגור, מאונך – מקסימום), וגררו אותו מהמרכז על הציר.</span><span class="live">LIVE</span></div>
-</section>
-
-<!-- 5 noa shower -->
-<section class="slide" data-demo="noaShower">
-  <div class="stage">
-    <div class="tile"></div><div class="arm"></div><div class="water"><i></i></div><div class="head"></div><div class="tag">סגור</div>
-    <div class="dots"></div>
-    <div class="hint" style="left:62px;top:655px">סגור</div><div class="hint" style="left:395px;top:500px">מקס׳</div>
-    <div class="bigknob grab" style="left:165px;top:505px"><b></b></div>
-    <div class="hint" style="left:240px;top:770px;color:var(--ink);font-size:26px;font-weight:700">זרימה</div>
-    <div class="hint" style="left:615px;top:462px;color:var(--hot);font-weight:700">חם</div>
-    <div class="hint" style="left:620px;top:746px;color:var(--cold);font-weight:700">קר</div>
-    <div class="track" style="left:616px;top:500px;width:28px;height:240px;background:linear-gradient(var(--hot),var(--cold));border:2px solid #CBD1D8"></div>
-    <div class="vticks"></div>
-    <div class="thumb grab"><i></i></div>
-    <div class="hint" style="left:570px;top:770px;color:var(--ink);font-size:26px;font-weight:700">טמפרטורה</div>
-  </div>
-  <div class="copy"><div class="eyebrow">מוצר 1 · פתרון 3 · נועה</div><h2>שתי בקרות, שני תפקידים</h2>
-    <p class="body">כפתור סיבוב בגודל כף יד שולט בעוצמת הזרימה, ומחוון אנכי עם סימוני מעלות שולט בטמפרטורה. צורה שונה לכל פעולה – מסובבים לזרימה, מחליקים לחום – כך שהבקרה עצמה מסבירה איך להשתמש בה.</p>
-    <div class="chips"><span>אפורדנס</span><span>מיפוי</span><span>סימנים</span></div></div>
-  <div class="caption"><span class="txt">סובבו את הכפתור לזרימה, וגררו את המחוון לטמפרטורה.</span><span class="live">LIVE</span></div>
+  <div class="copy"><div class="eyebrow">מקלחת · פתרון 3 · רוני</div><h2>ידית בשני צירים</h2>
+    <p class="body">ידית אחת. הרמה קובעת את העוצמה, ימינה ושמאלה את הטמפרטורה. שמאלה חם, ימינה קר.</p></div>
+  <div class="caption"><span class="txt">גררו למעלה לעוצמה, שמאלה לחם וימינה לקר.</span><span class="live">LIVE</span></div>
 </section>
 
 <!-- 6 clock problem -->
@@ -258,47 +254,12 @@ h2{font-size:68px;font-weight:700;margin:22px 0 26px;line-height:1.1}
     </div>
     <div class="homebar"></div>
   </div></div>
-  <div class="copy"><div class="eyebrow">מוצר 2 · השעון המעורר באייפון · הבעיה</div><h2>גלגל, גלגל – ושקט</h2>
-    <p class="body">כיוון השעון נעשה בגלגלי גלילה קטנים שקל לפספס בהם. אחרי Save המסך נסגר בלי אישור – המשתמש לא יודע לאיזה יום נקבע השעון ובעוד כמה זמן הוא יצלצל.</p>
-    <div class="chips"><span>משוב</span><span>שימושיות</span><span>מניעת טעויות</span></div></div>
-  <div class="caption"><span class="txt">נסו לכוון ל־7:35 ולחצו Save. שימו לב למה שלא קורה.</span><button data-reset>התחלה מחדש</button></div>
+  <div class="copy"><div class="eyebrow">שעון מעורר · הבעיה</div><h2>בלי אישור</h2>
+    <p class="body">בוחרים שעה בגלגלים קטנים. אחרי Save המסך נסגר, בלי להגיד לאיזה יום נקבע השעון ומתי הוא יצלצל.</p></div>
+  <div class="caption"><span class="txt">כוונו ל־7:35 ולחצו Save.</span><button data-reset>התחלה מחדש</button></div>
 </section>
 
-<!-- 7 radial clock -->
-<section class="slide" data-demo="radial">
-  <div class="phone"><div class="screen">
-    <div class="status">9:41</div><div class="island"></div>
-    <div class="alarms"></div>
-    <div class="sheet">
-      <div class="sh-head"><span class="o cancel">Cancel</span><b>Add Alarm</b><span class="o save">Save</span></div>
-      <div class="tdisp"><span class="hh act">06</span>:<span class="mm">30</span></div>
-      <div class="legend">טבעת חיצונית: 1–12 · טבעת פנימית: 13–00</div>
-      <svg class="dial" width="300" height="300" viewBox="-150 -150 300 300"></svg>
-      <div class="group"><div>Repeat<span>Never ›</span></div><div>Label<span>Alarm</span></div><div>Sound<span>Radial ›</span></div><div>Snooze<i class="tg on"></i></div></div>
-    </div>
-    <div class="keypad"></div>
-    <div class="toast"><div class="ck">✓</div><div><b></b><span></span></div></div>
-    <div class="homebar"></div>
-  </div></div>
-  <div class="copy"><div class="eyebrow">מוצר 2 · פתרון 1 · סטודנט א׳</div><h2>חוגה רדיאלית ואישור ברור</h2>
-    <p class="body">בוחרים שעה על חוגה – טבעת חיצונית ל־1–12 ופנימית ל־13–00 – ומיד עוברים לדקות בקפיצות של 5. לדיוק: החלקה על הספרות (±1) או הקלדה. אחרי השמירה מופיעה הודעה: מתי, באיזה יום ובעוד כמה זמן.</p>
-    <div class="chips"><span>משוב</span><span>מיפוי טבעי</span><span>גמישות ויעילות</span></div></div>
-  <div class="caption"><span class="txt">בחרו שעה בחוגה, החליקו על הספרות לשינוי של 1, או הקישו עליהן להקלדה.</span><button data-reset>התחלה מחדש</button></div>
-</section>
-
-<!-- 8 clock solution 2 placeholder -->
-<section class="slide">
-  <div class="stage" style="background:rgba(255,255,255,.5);border:3px dashed #C9C2B6;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:24px;direction:rtl">
-    <div style="width:120px;height:120px;border-radius:50%;background:rgba(255,159,10,.15);position:relative">
-      <i style="position:absolute;left:32px;top:56px;width:56px;height:8px;border-radius:4px;background:var(--o)"></i>
-      <i style="position:absolute;left:56px;top:32px;width:8px;height:56px;border-radius:4px;background:var(--o)"></i></div>
-    <div class="eyebrow" style="font-size:28px">כאן יופיע הדמו החי</div>
-  </div>
-  <div class="copy"><div class="eyebrow">מוצר 2 · פתרון 2 · סטודנט ב׳</div><h2>פתרון 2 – בקרוב</h2>
-    <p class="body">הפתרון עדיין בעבודה.</p></div>
-</section>
-
-<!-- 9 noa clock -->
+<!-- 7 noa clock -->
 <section class="slide" data-demo="noaClock">
   <div class="phone"><div class="screen">
     <div class="status">9:41</div><div class="island"></div>
@@ -319,17 +280,48 @@ h2{font-size:68px;font-weight:700;margin:22px 0 26px;line-height:1.1}
     <div class="toast"><div class="ck">✓</div><div><b></b><span></span></div></div>
     <div class="homebar"></div>
   </div></div>
-  <div class="copy"><div class="eyebrow">מוצר 2 · פתרון 3 · נועה</div><h2>קודם היום, אחר כך השעה</h2>
-    <p class="body">לפני שבוחרים שעה, האפליקציה שואלת לאיזה יום השעון מיועד: היום, מחר או יום אחר בבורר תאריכים. כך המשתמש יודע תמיד לאיזה יום נקבע השעון, ואין הפתעות של ״חשבתי שזה למחר״.</p>
-    <div class="chips"><span>מניעת טעויות</span><span>מודל מנטלי</span><span>משוב</span></div></div>
-  <div class="caption"><span class="txt">בחרו יום, ואז שעה, ולחצו Save.</span><button data-reset>התחלה מחדש</button></div>
+  <div class="copy"><div class="eyebrow">שעון מעורר · פתרון 1 · נועה</div><h2>קודם היום, אחר כך השעה</h2>
+    <p class="body">קודם בוחרים יום — היום, מחר, או תאריך אחר — ורק אז את השעה.</p></div>
+  <div class="caption"><span class="txt">בחרו יום, אחר כך שעה, ולחצו Save.</span><button data-reset>התחלה מחדש</button></div>
+</section>
+
+<!-- 8 radial clock -->
+<section class="slide" data-demo="radial">
+  <div class="phone"><div class="screen">
+    <div class="status">9:41</div><div class="island"></div>
+    <div class="alarms"></div>
+    <div class="sheet">
+      <div class="sh-head"><span class="o cancel">Cancel</span><b>Add Alarm</b><span class="o save">Save</span></div>
+      <div class="tdisp"><span class="hh act">06</span>:<span class="mm">30</span></div>
+      <div class="legend">טבעת חיצונית: 1–12 · טבעת פנימית: 13–00</div>
+      <svg class="dial" width="300" height="300" viewBox="-150 -150 300 300"></svg>
+      <div class="group"><div>Repeat<span>Never ›</span></div><div>Label<span>Alarm</span></div><div>Sound<span>Radial ›</span></div><div>Snooze<i class="tg on"></i></div></div>
+    </div>
+    <div class="keypad"></div>
+    <div class="toast"><div class="ck">✓</div><div><b></b><span></span></div></div>
+    <div class="homebar"></div>
+  </div></div>
+  <div class="copy"><div class="eyebrow">שעון מעורר · פתרון 2 · יהונתן</div><h2>חוגה ואישור</h2>
+    <p class="body">בוחרים שעה על חוגה. אחרי Save מופיע אישור: היום, השעה, ובעוד כמה זמן.</p></div>
+  <div class="caption"><span class="txt">בחרו שעה בחוגה, ואז Save. אפשר גם להחליק על המספרים או להקליד.</span><button data-reset>התחלה מחדש</button></div>
+</section>
+
+<!-- 9 clock solution 3 placeholder -->
+<section class="slide">
+  <div class="stage" style="background:rgba(255,255,255,.5);border:3px dashed #C9C2B6;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:24px;direction:rtl">
+    <div style="width:120px;height:120px;border-radius:50%;background:rgba(255,159,10,.15);position:relative">
+      <i style="position:absolute;left:32px;top:56px;width:56px;height:8px;border-radius:4px;background:var(--o)"></i>
+      <i style="position:absolute;left:56px;top:32px;width:8px;height:56px;border-radius:4px;background:var(--o)"></i></div>
+    <div class="eyebrow" style="font-size:28px">אין עדיין</div>
+  </div>
+  <div class="copy"><div class="eyebrow">שעון מעורר · פתרון 3 · רוני</div><h2>אין עדיין</h2>
+    <p class="body">אין עדיין פתרון.</p></div>
 </section>
 
 <!-- 10 closing -->
 <section class="slide dark">
   <div class="copy" style="top:220px;width:1680px"><h1 style="font-size:200px">תודה!</h1>
-    <p class="body" style="color:#A6A9B0;font-size:56px;margin-top:30px">שאלות?</p>
-    <div class="chips" style="margin-top:80px"><span style="background:var(--hot);color:#fff;border:0;font-size:30px">מיפוי</span><span style="background:var(--cold);color:#fff;border:0;font-size:30px">סימנים</span><span style="background:var(--o);color:#fff;border:0;font-size:30px">משוב</span></div></div>
+    <p class="body" style="color:#A6A9B0;font-size:56px;margin-top:30px">שאלות?</p></div>
 </section>
 
 </div>
